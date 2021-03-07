@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.app.coremodule.data.Resource
 import com.app.githubmobile.databinding.ActivityDashboardBinding
-import com.bumptech.glide.Glide
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class DashboardActivity : AppCompatActivity() {
@@ -25,16 +24,18 @@ class DashboardActivity : AppCompatActivity() {
                     binding.text.text = text
                 }
                 is Resource.Success -> {
-                    binding.text.text = users.data?.get(0)?.username
-                    Glide.with(this)
-                        .load(resources.getIdentifier(users.data?.get(0)?.avatar, "drawable", packageName))
-                        .into(binding.avatar)
                 }
                 is Resource.Error -> {
                     val text = "Error"
                     binding.text.text = text
                 }
             }
+        }
+        var state = true
+        binding.favorite.setState(state)
+        binding.favorite.setOnClickListener {
+            state = !state
+            binding.favorite.setState(!state)
         }
 
     }
