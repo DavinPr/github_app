@@ -1,5 +1,7 @@
 package com.app.coremodule.di
 
+import com.app.coremodule.data.AppRepository
+import com.app.coremodule.data.local.LocalDataSource
 import com.app.coremodule.data.remote.JsonHelper
 import com.app.coremodule.data.remote.JsonService
 import com.app.coremodule.data.remote.RemoteDataSource
@@ -26,4 +28,6 @@ val jsonModule = module {
 val repositoryModule = module {
     factory { AppExecutors() }
     single { RemoteDataSource(get()) }
+    single { LocalDataSource() }
+    single { AppRepository(get(), get(), get()) }
 }
