@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.app.coremodule.domain.usecase.model.User
 import com.app.githubmobile.databinding.UserItemBinding
+import com.app.githubmobile.helper.setImage
 import com.bumptech.glide.Glide
 
 class UserListAdapter : RecyclerView.Adapter<UserListAdapter.UserViewHolder>() {
@@ -38,12 +39,7 @@ class UserListAdapter : RecyclerView.Adapter<UserListAdapter.UserViewHolder>() {
         fun bind(user: User) {
             binding.userName.text = user.name
             binding.userUsername.text = user.username
-            itemView.context.apply {
-                val image = resources.getIdentifier(user.avatar, "drawable", packageName)
-                Glide.with(itemView.context)
-                    .load(image)
-                    .into(binding.userAvatar)
-            }
+            user.avatar?.let { setImage(itemView.context, binding.userAvatar, it) }
         }
 
         init {

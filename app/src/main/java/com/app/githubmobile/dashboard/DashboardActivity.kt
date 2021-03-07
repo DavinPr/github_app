@@ -1,5 +1,6 @@
 package com.app.githubmobile.dashboard
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -7,6 +8,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.coremodule.data.Resource
 import com.app.githubmobile.databinding.ActivityDashboardBinding
+import com.app.githubmobile.detail.DetailActivity
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class DashboardActivity : AppCompatActivity() {
@@ -39,6 +41,12 @@ class DashboardActivity : AppCompatActivity() {
                     Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show()
                 }
             }
+        }
+
+        userAdapter.onClickItem = {
+            val intent = Intent(this, DetailActivity::class.java)
+            intent.putExtra(DetailActivity.dataKey, it)
+            startActivity(intent)
         }
 
         binding.rvUser.let {
