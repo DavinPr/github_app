@@ -1,5 +1,9 @@
 package com.app.coremodule.domain.usecase.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class User(
     val follower: Int? = null,
     val following: Int? = null,
@@ -9,4 +13,4 @@ data class User(
     val avatar: String? = null,
     val repository: Int? = null,
     val username: String
-)
+) : Parcelable
