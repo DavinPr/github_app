@@ -1,10 +1,13 @@
 package com.app.githubmobile.detail
 
 import android.os.Bundle
+import android.text.SpannableStringBuilder
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.text.bold
 import com.app.coremodule.domain.usecase.model.User
 import com.app.githubmobile.databinding.ActivityDetailBinding
 import com.app.githubmobile.helper.setImage
+import com.app.githubmobile.helper.shortNumberDisplay
 
 class DetailActivity : AppCompatActivity() {
 
@@ -28,8 +31,20 @@ class DetailActivity : AppCompatActivity() {
 
     private fun dataBinding(user: User) {
         user.avatar?.let { setImage(this, binding.detailAvatar, it) }
-        binding.dataContainer.detailName.text = user.name
-        binding.dataContainer.detailUsername.text = user.username
+        binding.dataContainer.apply {
+            detailName.text = user.name
+            detailUsername.text = user.username
+            val followers = SpannableStringBuilder()
+                .bold { append(user.follower?.toDouble()?.shortNumberDisplay().toString()) }
+                .append(" followers")
+            detailFollowers.text = followers
+
+            val following = SpannableStringBuilder()
+                .bold { append(user.following?.toDouble()?.shortNumberDisplay().toString()) }
+                .append(" following")
+            detailFollowing.text = following
+
+        }
     }
 
 
