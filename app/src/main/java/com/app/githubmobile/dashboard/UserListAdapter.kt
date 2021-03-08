@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.app.coremodule.domain.usecase.model.User
 import com.app.githubmobile.databinding.UserItemBinding
 import com.app.githubmobile.helper.setImage
-import com.bumptech.glide.Glide
 
 class UserListAdapter : RecyclerView.Adapter<UserListAdapter.UserViewHolder>() {
 

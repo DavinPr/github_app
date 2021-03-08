@@ -2,4 +2,9 @@
     <string name="app_name">Github Mobile</string>
     <string name="my_name">Aditya Davin Pradana</string>
     <string name="my_username">DavinPr</string>
+    <string name="followers">followers</string>
+    <string name="following">following</string>
+    <string name="company">Company</string>
+    <string name="location">Location</string>
+    <string name="repository">Repository</string>
 </resources>

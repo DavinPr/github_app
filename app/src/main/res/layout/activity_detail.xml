@@ -16,30 +16,35 @@
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:contentScrim="@color/white"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
-            <ImageView
-                android:id="@+id/backdrop"
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="175dp"
-                android:background="@color/light_gray"
-                tools:ignore="ContentDescription" />
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                android:visibility="invisible"
+                app:elevation="0dp"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/detail_avatar"
-                android:layout_width="125dp"
-                android:layout_height="125dp"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 android:layout_gravity="center_horizontal|bottom"
-                android:src="@color/gray" />
+                android:src="@color/gray"
+                app:civ_border_color="@color/white"
+                app:civ_border_width="2dp"/>
 
             <com.app.githubmobile.customview.CircularImageButton
+                android:id="@+id/btn_back"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:backgroundTint="#8059B6FE"
-                android:layout_margin="8dp"
+                android:backgroundTint="@color/gray"
+                android:layout_margin="13dp"
                 android:src="@drawable/ic_back"
                 app:tint="@color/white"
+                app:layout_collapseMode="pin"
                 />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -49,7 +54,7 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <include
             android:id="@+id/data_container"
