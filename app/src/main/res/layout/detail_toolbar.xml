@@ -15,12 +15,12 @@
         app:tint="@color/white"
         />
 
-    <ImageButton
-        android:id="@+id/btn_more"
-        android:layout_width="@dimen/default_button_size"
-        android:layout_height="@dimen/default_button_size"
+    <com.app.githubmobile.customview.CustomFavoriteButton
+        android:id="@+id/btn_favorite"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:background="@null"
-        android:src="@drawable/ic_more"
+        android:src="@drawable/ic_favorite_border"
         android:layout_gravity="end"
         app:tint="@color/gray"
         android:layout_marginEnd="@dimen/button_margin"

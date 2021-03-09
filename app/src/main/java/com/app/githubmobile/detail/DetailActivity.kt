@@ -3,6 +3,7 @@ package com.app.githubmobile.detail
 import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
@@ -16,7 +17,8 @@ import com.google.android.material.appbar.AppBarLayout
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
-class DetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener {
+class DetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener,
+    View.OnClickListener {
 
     companion object {
         const val dataKey = "data_key"
@@ -64,6 +66,10 @@ class DetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener
         horizontalToolbarAvatarMargin = resources.getDimension(R.dimen.default_horizontal_margin)
 
         binding.appbar.addOnOffsetChangedListener(this)
+        binding.toolbar.apply {
+            btnFavorite.setOnClickListener(this@DetailActivity)
+            btnBack.setOnClickListener(this@DetailActivity)
+        }
     }
 
     private fun dataBinding(user: User) {
@@ -155,10 +161,11 @@ class DetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener
                             this.layoutParams = it
                         }
 
-                        val moreBtnStartPosition = (binding.toolbar.btnMore.width + btntnMargin) * 2
+                        val favoriteBtnStartPosition =
+                            (binding.toolbar.btnFavorite.width + btntnMargin) * 2
 
                         this.translationX =
-                            ((binding.appbar.width - (horizontalToolbarAvatarMargin + avatarSize + moreBtnStartPosition)) / 2) * avatarCollapseAnimateOffset
+                            ((binding.appbar.width - (horizontalToolbarAvatarMargin + avatarSize + favoriteBtnStartPosition)) / 2) * avatarCollapseAnimateOffset
                         this.translationY =
                             ((toolbar.height - (verticalToolbarAvatarMargin + avatarSize)) / 2) * avatarCollapseAnimateOffset
                     }
@@ -172,6 +179,23 @@ class DetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener
                     }
                 }
             }
+        }
+    }
+
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            binding.toolbar.btnFavorite.id -> {
+                binding.toolbar.btnFavorite.apply {
+                    if (getState()) {
+                        /* delete */
+                    } else {
+                        /* insert */
+
+                    }
+                    setState(!getState())
+                }
+            }
+            binding.toolbar.btnBack.id -> finish()
         }
     }
 }
