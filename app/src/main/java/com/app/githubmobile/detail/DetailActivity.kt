@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.core.text.bold
 import com.app.coremodule.domain.usecase.model.User
 import com.app.githubmobile.R
@@ -27,14 +29,28 @@ class DetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener
     }
 
     private lateinit var binding: ActivityDetailBinding
+    private lateinit var toolbar: Toolbar
 
     private var avatarExpandSize = 0f
     private var avatarCollapseSize = 0f
+    private var btntnMargin = 0f
+    private var horizontalToolbarAvatarMargin: Float = 0F
+
+    private var cashCollapseState: Pair<Int, Int>? = null
+
+    private var avatarAnimateStartPointY: Float = 0F
+    private var avatarCollapseAnimationChangeWeight: Float = 0F
+    private var isCalculated = false
+    private var verticalToolbarAvatarMargin = 0F
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        toolbar = binding.toolbar.root
+        setSupportActionBar(toolbar)
+        supportActionBar?.title = null
 
         val data: User? = intent.getParcelableExtra(dataKey)
 
@@ -44,6 +60,8 @@ class DetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener
 
         avatarExpandSize = resources.getDimension(R.dimen.default_expanded_image_size)
         avatarCollapseSize = resources.getDimension(R.dimen.default_collapsed_image_size)
+        btntnMargin = resources.getDimension(R.dimen.button_margin)
+        horizontalToolbarAvatarMargin = resources.getDimension(R.dimen.default_horizontal_margin)
 
         binding.appbar.addOnOffsetChangedListener(this)
     }
@@ -71,37 +89,19 @@ class DetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener
         }
     }
 
-    private var horizontalToolbarAvatarMargin: Float = 0F
-    private var cashCollapseState: Pair<Int, Int>? = null
-
-    private var avatarAnimateStartPointY: Float = 0F
-    private var avatarCollapseAnimationChangeWeight: Float = 0F
-    private var isCalculated = false
-    private var verticalToolbarAvatarMargin = 0F
-
     override fun onOffsetChanged(appBarLayout: AppBarLayout, verticalOffset: Int) {
         if (isCalculated.not()) {
             avatarAnimateStartPointY =
-                abs((appBarLayout.height - avatarExpandSize - binding.toolbar.height) / appBarLayout.totalScrollRange)
+                abs((appBarLayout.height - (avatarExpandSize + toolbar.height)) / appBarLayout.totalScrollRange)
             avatarCollapseAnimationChangeWeight = 1 / (1 - avatarAnimateStartPointY)
-            verticalToolbarAvatarMargin = (binding.toolbar.height - avatarCollapseSize) * 2
+            verticalToolbarAvatarMargin = (toolbar.height - avatarCollapseSize) * 2
             isCalculated = true
         }
         updateViews(abs(verticalOffset / appBarLayout.totalScrollRange.toFloat()))
-        Log.d("avatarY", avatarAnimateStartPointY.toString())
+        Log.d("avatar size", binding.detailAvatar.width.toString())
     }
 
     private fun updateViews(offset: Float) {
-        /* apply levels changes*/
-        when (offset) {
-            in 0.15F..1F -> {
-            }
-
-            in 0F..0.15F -> {
-                binding.detailAvatar.alpha = 1f
-            }
-        }
-
         /** collapse - expand switch*/
         when {
             offset < SWITCH_BOUND -> Pair(TO_EXPANDED, cashCollapseState?.second ?: WAIT_FOR_SWITCH)
@@ -113,17 +113,24 @@ class DetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener
                         TO_EXPANDED -> {
                             /* set avatar on start position (center of parent frame layout)*/
                             binding.detailAvatar.translationX = 0F
-                            /* set avatar on start position (center of parent frame layout)*/
-//                            binding.detailAvatar.apply {
-//                                animate().setDuration(250).alpha(1f)
-//                            }
-                            binding.btnBack.alpha = 1f
+                            binding.toolbar.btnBack.apply {
+                                background.alpha = 255
+                                imageTintList =
+                                    ContextCompat.getColorStateList(
+                                        this@DetailActivity,
+                                        R.color.white
+                                    )
+                            }
                         }
                         TO_COLLAPSED -> {
-//                            binding.detailAvatar.apply {
-//                                animate().setDuration(250).alpha(0f)
-//                            }
-                            binding.btnBack.alpha = 0f
+                            binding.toolbar.btnBack.apply {
+                                background.alpha = 0
+                                imageTintList =
+                                    ContextCompat.getColorStateList(
+                                        this@DetailActivity,
+                                        R.color.black
+                                    )
+                            }
                         }
                     }
                     cashCollapseState = Pair(first, SWITCHED)
@@ -148,10 +155,12 @@ class DetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener
                             this.layoutParams = it
                         }
 
+                        val moreBtnStartPosition = (binding.toolbar.btnMore.width + btntnMargin) * 2
+
                         this.translationX =
-                            ((binding.appbar.width - horizontalToolbarAvatarMargin - avatarSize) / 2) * avatarCollapseAnimateOffset
+                            ((binding.appbar.width - (horizontalToolbarAvatarMargin + avatarSize + moreBtnStartPosition)) / 2) * avatarCollapseAnimateOffset
                         this.translationY =
-                            ((binding.toolbar.height - verticalToolbarAvatarMargin - avatarSize) / 2) * avatarCollapseAnimateOffset
+                            ((toolbar.height - (verticalToolbarAvatarMargin + avatarSize)) / 2) * avatarCollapseAnimateOffset
                     }
                     else -> this.layoutParams.also {
                         if (it.height != avatarExpandSize.toInt()) {
@@ -160,7 +169,6 @@ class DetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener
                             this.layoutParams = it
                         }
                         translationX = 0f
-                        this.alpha = 1f
                     }
                 }
             }

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <com.app.githubmobile.customview.CircularImageButton
+        android:id="@+id/btn_back"
+        android:layout_width="@dimen/default_button_size"
+        android:layout_height="@dimen/default_button_size"
+        android:backgroundTint="@color/gray"
+        android:src="@drawable/ic_back"
+        app:tint="@color/white"
+        />
+
+    <ImageButton
+        android:id="@+id/btn_more"
+        android:layout_width="@dimen/default_button_size"
+        android:layout_height="@dimen/default_button_size"
+        android:background="@null"
+        android:src="@drawable/ic_more"
+        android:layout_gravity="end"
+        app:tint="@color/gray"
+        android:layout_marginEnd="@dimen/button_margin"
+        tools:ignore="ContentDescription" />
+
+</androidx.appcompat.widget.Toolbar>
