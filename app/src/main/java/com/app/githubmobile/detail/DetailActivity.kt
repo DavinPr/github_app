@@ -2,7 +2,7 @@ package com.app.githubmobile.detail
 
 import android.os.Bundle
 import android.text.SpannableStringBuilder
-import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
@@ -17,8 +17,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
-class DetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener,
-    View.OnClickListener {
+class DetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener {
 
     companion object {
         const val dataKey = "data_key"
@@ -70,30 +69,38 @@ class DetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener
         binding.appbar.addOnOffsetChangedListener(this)
         binding.toolbar.apply {
             btnFavorite.also {
-                it.setOnClickListener { view ->
+                if (data != null) {
+                    it.setState(data.isFavorited)
+                }
+                it.setOnClickListener { _ ->
                     if (it.getState()) {
                         /* delete */
                         if (data != null) {
                             viewModel.deleteFavorite(data)
+                            Toast.makeText(this@DetailActivity, "Deleted", Toast.LENGTH_SHORT)
+                                .show()
                         }
                     } else {
                         /* insert */
                         if (data != null) {
                             viewModel.insertFavorite(data)
+                            Toast.makeText(this@DetailActivity, "Inserted", Toast.LENGTH_SHORT)
+                                .show()
                         }
                     }
                     it.setState(!it.getState())
                 }
             }
-            btnBack.setOnClickListener(this@DetailActivity)
+            btnBack.setOnClickListener { finish() }
         }
     }
 
     private fun dataBinding(user: User) {
         user.avatar?.let { setImage(this, binding.detailAvatar, it) }
         binding.dataContainer.apply {
-            detailName.text = user.name
             detailUsername.text = user.username
+            detailName.text = user.name ?: detailName.text
+            detailLocation.text = user.location ?: detailLocation.text
             val followers = SpannableStringBuilder()
                 .bold { append(user.follower?.shortNumberDisplay().toString()) }
                 .append(" ${resources.getString(R.string.followers)}")
@@ -135,23 +142,36 @@ class DetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener
                         TO_EXPANDED -> {
                             /* set avatar on start position (center of parent frame layout)*/
                             binding.detailAvatar.translationX = 0F
-                            binding.toolbar.btnBack.apply {
-                                background.alpha = 255
-                                imageTintList =
-                                    ContextCompat.getColorStateList(
-                                        this@DetailActivity,
-                                        R.color.white
-                                    )
+                            window.apply {
+                                statusBarColor =
+                                    ContextCompat.getColor(this@DetailActivity, R.color.white)
+                            }
+                            binding.toolbar.apply {
+                                root.background = null
+                                btnBack.apply {
+                                    background.alpha = 255
+                                    imageTintList =
+                                        ContextCompat.getColorStateList(
+                                            this@DetailActivity,
+                                            R.color.white
+                                        )
+                                }
                             }
                         }
                         TO_COLLAPSED -> {
-                            binding.toolbar.btnBack.apply {
-                                background.alpha = 0
-                                imageTintList =
-                                    ContextCompat.getColorStateList(
-                                        this@DetailActivity,
-                                        R.color.black
-                                    )
+                            window.statusBarColor =
+                                ContextCompat.getColor(this@DetailActivity, R.color.gray)
+                            binding.toolbar.apply {
+                                root.background =
+                                    ContextCompat.getDrawable(this@DetailActivity, R.color.gray)
+                                btnBack.apply {
+                                    background.alpha = 255
+                                    imageTintList =
+                                        ContextCompat.getColorStateList(
+                                            this@DetailActivity,
+                                            R.color.white
+                                        )
+                                }
                             }
                         }
                     }
@@ -195,12 +215,6 @@ class DetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener
                     }
                 }
             }
-        }
-    }
-
-    override fun onClick(v: View?) {
-        when (v?.id) {
-            binding.toolbar.btnBack.id -> finish()
         }
     }
 }

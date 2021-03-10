@@ -1,5 +1,6 @@
 package com.app.githubmobile.favorite
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.coremodule.data.Resource
 import com.app.githubmobile.adapter.UserListAdapter
 import com.app.githubmobile.databinding.ActivityFavoriteBinding
+import com.app.githubmobile.detail.DetailActivity
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class FavoriteActivity : AppCompatActivity() {
@@ -27,7 +29,7 @@ class FavoriteActivity : AppCompatActivity() {
         viewModel.getAllFavorite().observe(this) { favorite ->
             when (favorite) {
                 is Resource.Loading -> {
-//                    Toast.makeText(this, "Loading", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Loading", Toast.LENGTH_SHORT).show()
                 }
                 is Resource.Success -> {
                     val data = favorite.data
@@ -41,6 +43,12 @@ class FavoriteActivity : AppCompatActivity() {
                     Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show()
                 }
             }
+        }
+
+        userAdapter.onClickItem = {
+            val intent = Intent(this, DetailActivity::class.java)
+            intent.putExtra(DetailActivity.dataKey, it)
+            startActivity(intent)
         }
 
         binding.rvFavorite.apply {
