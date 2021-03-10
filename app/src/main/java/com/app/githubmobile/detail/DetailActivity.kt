@@ -2,7 +2,6 @@ package com.app.githubmobile.detail
 
 import android.os.Bundle
 import android.text.SpannableStringBuilder
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -14,6 +13,7 @@ import com.app.githubmobile.databinding.ActivityDetailBinding
 import com.app.githubmobile.helper.setImage
 import com.app.githubmobile.helper.shortNumberDisplay
 import com.google.android.material.appbar.AppBarLayout
+import org.koin.android.viewmodel.ext.android.viewModel
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
@@ -32,6 +32,8 @@ class DetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener
 
     private lateinit var binding: ActivityDetailBinding
     private lateinit var toolbar: Toolbar
+
+    private val viewModel: DetailViewModel by viewModel()
 
     private var avatarExpandSize = 0f
     private var avatarCollapseSize = 0f
@@ -67,7 +69,22 @@ class DetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener
 
         binding.appbar.addOnOffsetChangedListener(this)
         binding.toolbar.apply {
-            btnFavorite.setOnClickListener(this@DetailActivity)
+            btnFavorite.also {
+                it.setOnClickListener { view ->
+                    if (it.getState()) {
+                        /* delete */
+                        if (data != null) {
+                            viewModel.deleteFavorite(data)
+                        }
+                    } else {
+                        /* insert */
+                        if (data != null) {
+                            viewModel.insertFavorite(data)
+                        }
+                    }
+                    it.setState(!it.getState())
+                }
+            }
             btnBack.setOnClickListener(this@DetailActivity)
         }
     }
@@ -104,7 +121,6 @@ class DetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener
             isCalculated = true
         }
         updateViews(abs(verticalOffset / appBarLayout.totalScrollRange.toFloat()))
-        Log.d("avatar size", binding.detailAvatar.width.toString())
     }
 
     private fun updateViews(offset: Float) {
@@ -184,17 +200,6 @@ class DetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            binding.toolbar.btnFavorite.id -> {
-                binding.toolbar.btnFavorite.apply {
-                    if (getState()) {
-                        /* delete */
-                    } else {
-                        /* insert */
-
-                    }
-                    setState(!getState())
-                }
-            }
             binding.toolbar.btnBack.id -> finish()
         }
     }

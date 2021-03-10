@@ -6,4 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface AppUseCase {
     fun getAllUser(): Flow<Resource<List<User>>>
+    fun getAllFavorite(): Flow<Resource<List<User>>>
+    fun insertFavorite(user: User)
+    fun deleteFavorite(user: User)
 }

@@ -7,9 +7,7 @@ import com.app.coremodule.domain.repository.IAppRepository
 import com.app.coremodule.domain.usecase.model.User
 import com.app.coremodule.utils.AppExecutors
 import com.app.coremodule.utils.DataMapper
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.*
 
 class AppRepository(
     private val appExecutors: AppExecutors,
@@ -30,5 +28,30 @@ class AppRepository(
                 is ApiResponse.Error -> emit(Resource.Error<List<User>>(apiResponse.errorMessage))
             }
         }
+
+    override fun getAllFavorite(): Flow<Resource<List<User>>> =
+        flow {
+            emit(Resource.Loading())
+            val data = localDataSource.getAllFavorite().map {
+                DataMapper.mapEntityToDomain(it)
+            }
+            emitAll(data.map {
+                Resource.Success(it)
+            })
+        }
+
+    override fun insertFavorite(user: User) {
+        val favorite = DataMapper.mapDomainToEntity(user)
+        appExecutors.diskIO().execute {
+            localDataSource.insertFavorite(favorite)
+        }
+    }
+
+    override fun deleteFavorite(user: User) {
+        val favorite = DataMapper.mapDomainToEntity(user)
+        appExecutors.diskIO().execute {
+            localDataSource.deleteFavorite(favorite)
+        }
+    }
 
 }

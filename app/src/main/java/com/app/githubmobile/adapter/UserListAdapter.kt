@@ -1,4 +1,4 @@
-package com.app.githubmobile.dashboard
+package com.app.githubmobile.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -21,12 +21,12 @@ class UserListAdapter : RecyclerView.Adapter<UserListAdapter.UserViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): UserListAdapter.UserViewHolder =
+    ): UserViewHolder =
         UserViewHolder(
             UserItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
 
-    override fun onBindViewHolder(holder: UserListAdapter.UserViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         val user = list[position]
         holder.bind(user)
     }

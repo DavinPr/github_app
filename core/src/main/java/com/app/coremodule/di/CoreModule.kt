@@ -1,7 +1,9 @@
 package com.app.coremodule.di
 
+import androidx.room.Room
 import com.app.coremodule.data.AppRepository
 import com.app.coremodule.data.local.LocalDataSource
+import com.app.coremodule.data.local.room.AppDatabase
 import com.app.coremodule.data.remote.JsonHelper
 import com.app.coremodule.data.remote.JsonService
 import com.app.coremodule.data.remote.RemoteDataSource
@@ -25,9 +27,21 @@ val jsonModule = module {
     single<JsonService> { JsonHelper(get(), get()) }
 }
 
+val databaseModule = module {
+    factory { get<AppDatabase>().appDao() }
+
+    single {
+        Room.databaseBuilder(
+            androidContext(),
+            AppDatabase::class.java, "github.db"
+        ).fallbackToDestructiveMigration()
+            .build()
+    }
+}
+
 val repositoryModule = module {
     factory { AppExecutors() }
     single { RemoteDataSource(get()) }
-    single { LocalDataSource() }
+    single { LocalDataSource(get()) }
     single { AppRepository(get(), get(), get()) }
 }

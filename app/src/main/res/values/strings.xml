@@ -7,4 +7,5 @@
     <string name="company">Company</string>
     <string name="location">Location</string>
     <string name="repository">Repository</string>
+    <string name="favorite">Favorite</string>
 </resources>

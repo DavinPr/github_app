@@ -7,8 +7,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.coremodule.data.Resource
+import com.app.githubmobile.adapter.UserListAdapter
 import com.app.githubmobile.databinding.ActivityDashboardBinding
 import com.app.githubmobile.detail.DetailActivity
+import com.app.githubmobile.favorite.FavoriteActivity
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class DashboardActivity : AppCompatActivity() {
@@ -54,6 +56,11 @@ class DashboardActivity : AppCompatActivity() {
             it.hasFixedSize()
             it.adapter = userAdapter
             it.addItemDecoration(DividerItemDecoration(it.context, DividerItemDecoration.VERTICAL))
+        }
+
+        binding.btnFavorite.setOnClickListener {
+            val intent = Intent(this, FavoriteActivity::class.java)
+            startActivity(intent)
         }
     }
 }

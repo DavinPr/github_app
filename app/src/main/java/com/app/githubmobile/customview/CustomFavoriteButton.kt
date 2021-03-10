@@ -64,7 +64,7 @@ class CustomFavoriteButton : CircularImageButton {
         iconEnable = ResourcesCompat.getDrawable(resources, R.drawable.ic_favorite, null)
         iconDisable = ResourcesCompat.getDrawable(resources, R.drawable.ic_favorite_border, null)
         backgroundTintEnable = ContextCompat.getColorStateList(context, R.color.red_light)
-        backgroundTintDisable = ContextCompat.getColorStateList(context, R.color.light_gray)
+        backgroundTintDisable = ContextCompat.getColorStateList(context, R.color.gray)
         iconTintEnable = ContextCompat.getColorStateList(context, R.color.red)
         iconTintDisable = ContextCompat.getColorStateList(context, R.color.white)
     }

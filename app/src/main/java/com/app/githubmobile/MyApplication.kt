@@ -1,6 +1,7 @@
 package com.app.githubmobile
 
 import android.app.Application
+import com.app.coremodule.di.databaseModule
 import com.app.coremodule.di.jsonModule
 import com.app.coremodule.di.repositoryModule
 import com.app.githubmobile.di.useCaseModule
@@ -20,6 +21,7 @@ class MyApplication : Application() {
             modules(
                 jsonModule,
                 repositoryModule,
+                databaseModule,
                 useCaseModule,
                 viewModelModule
             )
