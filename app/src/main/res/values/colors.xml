@@ -12,4 +12,5 @@
     <color name="red_light">#ff9696</color>
     <color name="light_gray">#dbdbdb</color>
     <color name="gray">#4C4C4C</color>
+    <color name="text_gray">#AAAAAA</color>
 </resources>

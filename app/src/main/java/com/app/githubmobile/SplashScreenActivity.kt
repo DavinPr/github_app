@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
-import com.app.githubmobile.dashboard.DashboardActivity
+import com.app.githubmobile.home.HomeActivity
 
 class SplashScreenActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -14,7 +14,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
         val delay = 2000L
         Handler(Looper.getMainLooper()).postDelayed({
-            val intent = Intent(this, DashboardActivity::class.java)
+            val intent = Intent(this, HomeActivity::class.java)
             startActivity(intent)
         }, delay)
     }

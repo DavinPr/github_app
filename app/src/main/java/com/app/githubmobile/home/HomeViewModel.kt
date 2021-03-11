@@ -1,4 +1,4 @@
-package com.app.githubmobile.dashboard
+package com.app.githubmobile.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
@@ -7,6 +7,6 @@ import com.app.coremodule.data.Resource
 import com.app.coremodule.domain.usecase.AppUseCase
 import com.app.coremodule.domain.usecase.model.User
 
-class DashboardViewModel(private val useCase: AppUseCase) : ViewModel() {
+class HomeViewModel(private val useCase: AppUseCase) : ViewModel() {
     fun getAllUser(): LiveData<Resource<List<User>>> = useCase.getAllUser().asLiveData()
 }

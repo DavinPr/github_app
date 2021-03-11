@@ -2,7 +2,7 @@ package com.app.githubmobile.di
 
 import com.app.coremodule.domain.usecase.AppInteractor
 import com.app.coremodule.domain.usecase.AppUseCase
-import com.app.githubmobile.dashboard.DashboardViewModel
+import com.app.githubmobile.home.HomeViewModel
 import com.app.githubmobile.detail.DetailViewModel
 import com.app.githubmobile.favorite.FavoriteViewModel
 import org.koin.android.viewmodel.dsl.viewModel
@@ -13,7 +13,7 @@ val useCaseModule = module {
 }
 
 val viewModelModule = module {
-    viewModel { DashboardViewModel(get()) }
+    viewModel { HomeViewModel(get()) }
     viewModel { FavoriteViewModel(get()) }
     viewModel { DetailViewModel(get()) }
 }
