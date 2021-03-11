@@ -15,6 +15,10 @@
         <item name="android:windowLightStatusBar">true</item>
     </style>
 
+    <style name="Theme.GithubMobile.Translucent.StatusBar" parent="Theme.GithubMobile">
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
     <style name="Theme.GithubMobile.Text">
         <item name="android:textColor">@color/black</item>
     </style>

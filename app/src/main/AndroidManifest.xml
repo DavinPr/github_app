@@ -10,15 +10,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GithubMobile">
-        <activity android:name=".favorite.FavoriteActivity"></activity>
-        <activity android:name=".detail.DetailActivity" />
-        <activity android:name=".dashboard.DashboardActivity">
+        <activity
+            android:name=".SplashScreenActivity"
+            android:noHistory="true"
+            android:theme="@style/Theme.GithubMobile.Translucent.StatusBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".favorite.FavoriteActivity" />
+        <activity android:name=".detail.DetailActivity" />
+        <activity android:name=".dashboard.DashboardActivity" />
     </application>
 
 </manifest>
