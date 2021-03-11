@@ -1,8 +1,11 @@
 package com.app.coremodule.data
 
 import com.app.coremodule.data.local.LocalDataSource
-import com.app.coremodule.data.remote.ApiResponse
 import com.app.coremodule.data.remote.RemoteDataSource
+import com.app.coremodule.data.remote.network.ApiResponse
+import com.app.coremodule.data.remote.response.DetailResponse
+import com.app.coremodule.data.remote.response.SearchItem
+import com.app.coremodule.data.remote.response.UserFollowResponse
 import com.app.coremodule.domain.repository.IAppRepository
 import com.app.coremodule.domain.usecase.model.User
 import com.app.coremodule.utils.AppExecutors
@@ -14,20 +17,31 @@ class AppRepository(
     private val remoteDataSource: RemoteDataSource,
     private val localDataSource: LocalDataSource
 ) : IAppRepository {
-    override fun getAllUsers(): Flow<Resource<List<User>>> =
+    override fun getSearchUser(username: String): Flow<Resource<List<SearchItem>>> =
         flow {
             emit(Resource.Loading())
-            when (val apiResponse = remoteDataSource.getAllUsers().first()) {
+            when (val apiResponse = remoteDataSource.getSearchUser(username).first()) {
                 is ApiResponse.Success -> {
-                    if (apiResponse.data != null) {
-                        val data = DataMapper.mapResponseToDomain(apiResponse.data)
-                        emit(Resource.Success(data))
-                    }
+
                 }
-                is ApiResponse.Empty -> emit(Resource.Success<List<User>>(emptyList()))
-                is ApiResponse.Error -> emit(Resource.Error<List<User>>(apiResponse.errorMessage))
+                is ApiResponse.Empty -> emit(Resource.Success<List<SearchItem>>(emptyList()))
+                is ApiResponse.Error -> {
+                }
             }
         }
+
+    override fun getDetailUser(username: String): Flow<Resource<DetailResponse>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getUserFollowing(username: String): Flow<Resource<List<UserFollowResponse>>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getUserFollowers(username: String): Flow<Resource<List<UserFollowResponse>>> {
+        TODO("Not yet implemented")
+    }
+
 
     override fun getAllFavorite(): Flow<Resource<List<User>>> =
         flow {

@@ -2,7 +2,7 @@ package com.app.githubmobile
 
 import android.app.Application
 import com.app.coremodule.di.databaseModule
-import com.app.coremodule.di.jsonModule
+import com.app.coremodule.di.networkModule
 import com.app.coremodule.di.repositoryModule
 import com.app.githubmobile.di.useCaseModule
 import com.app.githubmobile.di.viewModelModule
@@ -19,7 +19,7 @@ class MyApplication : Application() {
             androidLogger(Level.ERROR)
             androidContext(this@MyApplication)
             modules(
-                jsonModule,
+                networkModule,
                 repositoryModule,
                 databaseModule,
                 useCaseModule,
