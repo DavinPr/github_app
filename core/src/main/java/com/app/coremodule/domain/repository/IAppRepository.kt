@@ -1,18 +1,20 @@
 package com.app.coremodule.domain.repository
 
 import com.app.coremodule.data.Resource
-import com.app.coremodule.data.remote.response.DetailResponse
-import com.app.coremodule.data.remote.response.SearchItem
-import com.app.coremodule.data.remote.response.UserFollowResponse
+import com.app.coremodule.domain.usecase.model.Detail
 import com.app.coremodule.domain.usecase.model.User
 import kotlinx.coroutines.flow.Flow
 
 interface IAppRepository {
-    fun getSearchUser(username: String): Flow<Resource<List<SearchItem>>>
-    fun getDetailUser(username: String): Flow<Resource<DetailResponse>>
-    fun getUserFollowing(username: String): Flow<Resource<List<UserFollowResponse>>>
-    fun getUserFollowers(username: String): Flow<Resource<List<UserFollowResponse>>>
+    fun getSearchUser(username: String): Flow<Resource<List<User>>>
+    fun getDetailUser(username: String): Flow<Resource<Detail>>
+    fun getUserFollowing(username: String): Flow<Resource<List<User>>>
+    fun getUserFollowers(username: String): Flow<Resource<List<User>>>
+
     fun getAllFavorite(): Flow<Resource<List<User>>>
     fun insertFavorite(user: User)
     fun deleteFavorite(user: User)
+
+    fun putFragmentTag(tag: String)
+    fun getFragmentTag(): String?
 }

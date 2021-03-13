@@ -1,9 +1,12 @@
 package com.app.coremodule.di
 
+import android.content.Context
 import androidx.room.Room
 import com.app.coremodule.data.AppRepository
 import com.app.coremodule.data.local.LocalDataSource
 import com.app.coremodule.data.local.room.AppDatabase
+import com.app.coremodule.data.local.sharedpref.ISharedPref
+import com.app.coremodule.data.local.sharedpref.SharedPref
 import com.app.coremodule.data.remote.RemoteDataSource
 import com.app.coremodule.data.remote.network.ApiService
 import com.app.coremodule.utils.AppExecutors
@@ -44,11 +47,16 @@ val databaseModule = module {
         ).fallbackToDestructiveMigration()
             .build()
     }
+
+    single<ISharedPref> {
+        val pref = androidContext().getSharedPreferences("User_github_pref", Context.MODE_PRIVATE)
+        SharedPref(pref)
+    }
 }
 
 val repositoryModule = module {
     factory { AppExecutors() }
     single { RemoteDataSource(get()) }
-    single { LocalDataSource(get()) }
+    single { LocalDataSource(get(), get()) }
     single { AppRepository(get(), get(), get()) }
 }

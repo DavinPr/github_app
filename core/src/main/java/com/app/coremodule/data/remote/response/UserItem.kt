@@ -2,7 +2,7 @@ package com.app.coremodule.data.remote.response
 
 import com.google.gson.annotations.SerializedName
 
-data class UserFollowResponse(
+data class UserItem(
 
 	@field:SerializedName("gists_url")
 	val gistsUrl: String? = null,
@@ -17,7 +17,7 @@ data class UserFollowResponse(
 	val starredUrl: String? = null,
 
 	@field:SerializedName("login")
-	val login: String? = null,
+	val username: String,
 
 	@field:SerializedName("followers_url")
 	val followersUrl: String? = null,
@@ -31,11 +31,14 @@ data class UserFollowResponse(
 	@field:SerializedName("subscriptions_url")
 	val subscriptionsUrl: String? = null,
 
+	@field:SerializedName("score")
+	val score: Int? = null,
+
 	@field:SerializedName("received_events_url")
 	val receivedEventsUrl: String? = null,
 
 	@field:SerializedName("avatar_url")
-	val avatarUrl: String? = null,
+	val avatar: String? = null,
 
 	@field:SerializedName("events_url")
 	val eventsUrl: String? = null,
@@ -47,7 +50,7 @@ data class UserFollowResponse(
 	val siteAdmin: Boolean? = null,
 
 	@field:SerializedName("id")
-	val id: Int? = null,
+	val id: Int = 0,
 
 	@field:SerializedName("gravatar_id")
 	val gravatarId: String? = null,

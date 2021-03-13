@@ -2,16 +2,16 @@ package com.app.githubmobile.detail
 
 import android.os.Bundle
 import android.text.SpannableStringBuilder
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.text.bold
-import com.app.coremodule.domain.usecase.model.User
+import com.app.coremodule.data.Resource
+import com.app.coremodule.domain.usecase.model.Detail
 import com.app.githubmobile.R
 import com.app.githubmobile.databinding.ActivityDetailBinding
-import com.app.githubmobile.helper.setImage
 import com.app.githubmobile.helper.shortNumberDisplay
+import com.bumptech.glide.Glide
 import com.google.android.material.appbar.AppBarLayout
 import org.koin.android.viewmodel.ext.android.viewModel
 import kotlin.math.abs
@@ -55,10 +55,23 @@ class DetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener
         setSupportActionBar(toolbar)
         supportActionBar?.title = null
 
-        val data: User? = intent.getParcelableExtra(dataKey)
+        val username: String? = intent.getStringExtra(dataKey)
 
-        if (data != null) {
-            dataBinding(data)
+        if (username != null) {
+            viewModel.getDetailData(username).observe(this) { detail ->
+                when (detail) {
+                    is Resource.Loading -> {
+                    }
+                    is Resource.Success -> {
+                        val data = detail.data
+                        if (data != null) {
+                            dataBinding(data)
+                        }
+                    }
+                    is Resource.Error -> {
+                    }
+                }
+            }
         }
 
         avatarExpandSize = resources.getDimension(R.dimen.default_expanded_image_size)
@@ -68,52 +81,53 @@ class DetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener
 
         binding.appbar.addOnOffsetChangedListener(this)
         binding.toolbar.apply {
-            btnFavorite.also {
-                if (data != null) {
-                    it.setState(data.isFavorited)
-                }
-                it.setOnClickListener { _ ->
-                    if (it.getState()) {
-                        /* delete */
-                        if (data != null) {
-                            viewModel.deleteFavorite(data)
-                            Toast.makeText(this@DetailActivity, "Deleted", Toast.LENGTH_SHORT)
-                                .show()
-                        }
-                    } else {
-                        /* insert */
-                        if (data != null) {
-                            viewModel.insertFavorite(data)
-                            Toast.makeText(this@DetailActivity, "Inserted", Toast.LENGTH_SHORT)
-                                .show()
-                        }
-                    }
-                    it.setState(!it.getState())
-                }
-            }
+//            btnFavorite.also {
+//
+//                it.setOnClickListener { _ ->
+//                    if (it.getState()) {
+//                        /* delete */
+//                        if (data != null) {
+//                            viewModel.deleteFavorite(data)
+//                            Toast.makeText(this@DetailActivity, "Deleted", Toast.LENGTH_SHORT)
+//                                .show()
+//                        }
+//                    } else {
+//                        /* insert */
+//                        if (data != null) {
+//                            viewModel.insertFavorite(data)
+//                            Toast.makeText(this@DetailActivity, "Inserted", Toast.LENGTH_SHORT)
+//                                .show()
+//                        }
+//                    }
+//                    it.setState(!it.getState())
+//                }
+//            }
             btnBack.setOnClickListener { finish() }
         }
     }
 
-    private fun dataBinding(user: User) {
-        user.avatar?.let { setImage(this, binding.detailAvatar, it) }
+    private fun dataBinding(detail: Detail) {
+        Glide.with(this)
+            .load(detail.avatar)
+            .into(binding.detailAvatar)
+
         binding.dataContainer.apply {
-            detailUsername.text = user.username
-            detailName.text = user.name ?: detailName.text
-            detailLocation.text = user.location ?: detailLocation.text
+            detailUsername.text = detail.login
+            detailName.text = detail.name ?: detailName.text
+            detailLocation.text = detail.location ?: detailLocation.text
             val followers = SpannableStringBuilder()
-                .bold { append(user.follower?.shortNumberDisplay().toString()) }
+                .bold { append(detail.followers?.shortNumberDisplay().toString()) }
                 .append(" ${resources.getString(R.string.followers)}")
             detailFollowers.text = followers
 
             val following = SpannableStringBuilder()
-                .bold { append(user.following?.shortNumberDisplay().toString()) }
+                .bold { append(detail.following?.shortNumberDisplay().toString()) }
                 .append(" ${resources.getString(R.string.following)}")
             detailFollowing.text = following
 
-            detailCompany.text = user.company
+            detailCompany.text = detail.company
             val repo = SpannableStringBuilder()
-                .bold { append(user.repository?.shortNumberDisplay().toString()) }
+                .bold { append(detail.publicRepos?.shortNumberDisplay().toString()) }
                 .append(" ${resources.getString(R.string.repository)}")
             detailRepository.text = repo
         }

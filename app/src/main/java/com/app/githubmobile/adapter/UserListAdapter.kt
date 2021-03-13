@@ -5,12 +5,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.app.coremodule.domain.usecase.model.User
 import com.app.githubmobile.databinding.UserItemBinding
-import com.app.githubmobile.helper.setImage
+import com.bumptech.glide.Glide
 
 class UserListAdapter : RecyclerView.Adapter<UserListAdapter.UserViewHolder>() {
 
     private val list = ArrayList<User>()
-    var onClickItem: ((User) -> Unit)? = null
+    var onClickItem: ((String) -> Unit)? = null
 
     fun setData(list: List<User>) {
         this.list.clear()
@@ -36,14 +36,16 @@ class UserListAdapter : RecyclerView.Adapter<UserListAdapter.UserViewHolder>() {
     inner class UserViewHolder(private val binding: UserItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(user: User) {
-            binding.userName.text = user.name
+            binding.userName.text = user.name ?: user.username
             binding.userUsername.text = user.username
-            user.avatar?.let { setImage(itemView.context, binding.userAvatar, it) }
+            Glide.with(itemView.context)
+                .load(user.avatar)
+                .into(binding.userAvatar)
         }
 
         init {
             itemView.setOnClickListener {
-                onClickItem?.invoke(list[adapterPosition])
+                onClickItem?.invoke(list[adapterPosition].username)
             }
         }
     }

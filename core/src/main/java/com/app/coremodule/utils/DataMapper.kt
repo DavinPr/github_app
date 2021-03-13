@@ -1,42 +1,53 @@
 package com.app.coremodule.utils
 
 import com.app.coremodule.data.local.model.FavoriteEntity
-import com.app.coremodule.data.remote.response.UsersItem
+import com.app.coremodule.data.remote.response.DetailResponse
+import com.app.coremodule.data.remote.response.UserItem
+import com.app.coremodule.domain.usecase.model.Detail
 import com.app.coremodule.domain.usecase.model.User
 
 object DataMapper {
-    fun mapResponseToDomain(userResponse: List<UsersItem>): List<User> {
+
+    fun mapUserResponseToDomain(users: List<UserItem>): List<User> {
         val list = ArrayList<User>()
-        userResponse.map {
+        users.map {
             val user = User(
-                follower = it.follower,
-                following = it.following,
-                name = it.name,
-                company = it.company,
-                location = it.location,
                 avatar = it.avatar,
-                repository = it.repository,
                 username = it.username,
-                isFavorited = false
+                id = it.id
             )
             list.add(user)
         }
         return list
     }
 
+    fun mapDetailResponseToDomain(detail: DetailResponse): Detail =
+        detail.let {
+            Detail(
+                twitterUsername = it.twitterUsername,
+                bio = it.bio,
+                login = it.login,
+                blog = it.blog,
+                company = it.company,
+                id = it.id,
+                publicRepos = it.publicRepos,
+                email = it.email,
+                publicGists = it.publicGists,
+                followers = it.followers,
+                avatar = it.avatarUrl,
+                htmlUrl = it.htmlUrl,
+                following = it.following,
+                name = it.name,
+                location = it.location
+            )
+        }
+
     fun mapEntityToDomain(favoriteEntity: List<FavoriteEntity>): List<User> {
         val list = ArrayList<User>()
         favoriteEntity.map {
             val user = User(
-                follower = it.follower,
-                following = it.following,
-                name = it.name,
-                company = it.company,
-                location = it.location,
                 avatar = it.avatar,
-                repository = it.repository,
-                username = it.username,
-                isFavorited = true
+                username = it.username
             )
             list.add(user)
         }
@@ -45,13 +56,7 @@ object DataMapper {
 
     fun mapDomainToEntity(user: User): FavoriteEntity {
         return FavoriteEntity(
-            follower = user.follower,
-            following = user.following,
-            name = user.name,
-            company = user.company,
-            location = user.location,
             avatar = user.avatar,
-            repository = user.repository,
             username = user.username
         )
     }
