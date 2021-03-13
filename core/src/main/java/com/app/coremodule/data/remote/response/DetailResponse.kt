@@ -44,10 +44,10 @@ data class DetailResponse(
 	val company: String? = null,
 
 	@field:SerializedName("id")
-	val id: Int? = null,
+	val id: Int = 0,
 
 	@field:SerializedName("public_repos")
-	val publicRepos: Int? = null,
+	val publicRepos: Int = 0,
 
 	@field:SerializedName("gravatar_id")
 	val gravatarId: String? = null,
@@ -68,7 +68,7 @@ data class DetailResponse(
 	val followersUrl: String? = null,
 
 	@field:SerializedName("public_gists")
-	val publicGists: Int? = null,
+	val publicGists: Int = 0,
 
 	@field:SerializedName("url")
 	val url: String? = null,
@@ -77,7 +77,7 @@ data class DetailResponse(
 	val receivedEventsUrl: String? = null,
 
 	@field:SerializedName("followers")
-	val followers: Int? = null,
+	val followers: Int = 0,
 
 	@field:SerializedName("avatar_url")
 	val avatarUrl: String? = null,
@@ -89,7 +89,7 @@ data class DetailResponse(
 	val htmlUrl: String? = null,
 
 	@field:SerializedName("following")
-	val following: Int? = null,
+	val following: Int = 0,
 
 	@field:SerializedName("name")
 	val name: String? = null,

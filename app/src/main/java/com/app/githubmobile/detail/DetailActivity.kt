@@ -1,7 +1,11 @@
 package com.app.githubmobile.detail
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.text.SpannableStringBuilder
+import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
@@ -112,24 +116,52 @@ class DetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener
             .into(binding.detailAvatar)
 
         binding.dataContainer.apply {
-            detailUsername.text = detail.login
             detailName.text = detail.name ?: detailName.text
-            detailLocation.text = detail.location ?: detailLocation.text
+            detailUsername.text = detail.login
+
             val followers = SpannableStringBuilder()
-                .bold { append(detail.followers?.shortNumberDisplay().toString()) }
+                .bold { append(detail.followers.shortNumberDisplay()) }
                 .append(" ${resources.getString(R.string.followers)}")
             detailFollowers.text = followers
 
             val following = SpannableStringBuilder()
-                .bold { append(detail.following?.shortNumberDisplay().toString()) }
+                .bold { append(detail.following.shortNumberDisplay()) }
                 .append(" ${resources.getString(R.string.following)}")
             detailFollowing.text = following
 
-            detailCompany.text = detail.company
-            val repo = SpannableStringBuilder()
-                .bold { append(detail.publicRepos?.shortNumberDisplay().toString()) }
-                .append(" ${resources.getString(R.string.repository)}")
-            detailRepository.text = repo
+            personalDataContainer.apply {
+                detail.bio.also { displayTextView(detailBio, it) }
+                detail.company.also { displayTextView(detailCompany, it) }
+                detail.blog.also {
+                    displayTextView(detailBlog, it)
+                    if (it != null) {
+                        detailBlog.setOnClickListener { _ ->
+                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(it))
+                            startActivity(intent)
+                        }
+                    }
+                }
+                detail.location.also { displayTextView(detailLocation, it) }
+
+                btnOpenInGithub.setOnClickListener {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(detail.htmlUrl))
+                    startActivity(intent)
+                }
+            }
+
+            gitDataContainer.apply {
+                detailRepository.text = detail.publicRepos.shortNumberDisplay()
+                detailStarred.text = (0).shortNumberDisplay()
+                detailGist.text = detail.publicGists.shortNumberDisplay()
+            }
+        }
+    }
+
+    private fun displayTextView(view: TextView, data: String?) {
+        if (data.isNullOrEmpty()) {
+            view.visibility = View.GONE
+        } else {
+            view.text = data
         }
     }
 
@@ -156,6 +188,7 @@ class DetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener
                         TO_EXPANDED -> {
                             /* set avatar on start position (center of parent frame layout)*/
                             binding.detailAvatar.translationX = 0F
+                            binding.detailAvatar.borderColor = ContextCompat.getColor(this@DetailActivity, R.color.gray)
                             window.apply {
                                 statusBarColor =
                                     ContextCompat.getColor(this@DetailActivity, R.color.white)
@@ -173,6 +206,7 @@ class DetailActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener
                             }
                         }
                         TO_COLLAPSED -> {
+                            binding.detailAvatar.borderColor = ContextCompat.getColor(this@DetailActivity, R.color.white)
                             window.statusBarColor =
                                 ContextCompat.getColor(this@DetailActivity, R.color.gray)
                             binding.toolbar.apply {

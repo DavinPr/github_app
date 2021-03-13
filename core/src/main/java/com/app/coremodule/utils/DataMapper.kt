@@ -29,7 +29,8 @@ object DataMapper {
                 login = it.login,
                 blog = it.blog,
                 company = it.company,
-                id = it.id,
+                id =
+                it.id,
                 publicRepos = it.publicRepos,
                 email = it.email,
                 publicGists = it.publicGists,

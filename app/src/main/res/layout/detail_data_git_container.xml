@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/tv_repo"
+        style="@style/Theme.GithubMobile.Text.Regular.14"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:drawablePadding="8dp"
+        android:gravity="center_vertical"
+        android:text="@string/repositories"
+        app:drawableStartCompat="@drawable/ic_repo"
+        app:layout_constraintBottom_toBottomOf="@+id/detail_repository"
+        app:layout_constraintEnd_toStartOf="@+id/detail_repository"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/detail_repository" />
+
+    <TextView
+        android:id="@+id/detail_repository"
+        style="@style/Theme.GithubMobile.Text.Medium.14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/n_a"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_star"
+        style="@style/Theme.GithubMobile.Text.Regular.14"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:drawablePadding="8dp"
+        android:gravity="center_vertical"
+        android:text="@string/starred"
+        app:drawableStartCompat="@drawable/ic_starred"
+        app:layout_constraintBottom_toBottomOf="@+id/detail_starred"
+        app:layout_constraintEnd_toStartOf="@+id/detail_starred"
+        app:layout_constraintStart_toStartOf="@+id/tv_repo"
+        app:layout_constraintTop_toTopOf="@+id/detail_starred" />
+
+    <TextView
+        android:id="@+id/detail_starred"
+        style="@style/Theme.GithubMobile.Text.Medium.14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/n_a"
+        app:layout_constraintEnd_toEndOf="@+id/detail_repository"
+        app:layout_constraintTop_toBottomOf="@+id/detail_repository" />
+
+    <TextView
+        android:id="@+id/tv_gist"
+        style="@style/Theme.GithubMobile.Text.Regular.14"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:drawablePadding="8dp"
+        android:gravity="center_vertical"
+        android:text="@string/gist"
+        app:drawableStartCompat="@drawable/ic_code"
+        app:layout_constraintBottom_toBottomOf="@+id/detail_gist"
+        app:layout_constraintEnd_toStartOf="@+id/detail_gist"
+        app:layout_constraintStart_toStartOf="@+id/tv_star"
+        app:layout_constraintTop_toTopOf="@+id/detail_gist" />
+
+    <TextView
+        android:id="@+id/detail_gist"
+        style="@style/Theme.GithubMobile.Text.Medium.14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/n_a"
+        app:layout_constraintEnd_toEndOf="@+id/detail_starred"
+        app:layout_constraintTop_toBottomOf="@+id/detail_starred" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

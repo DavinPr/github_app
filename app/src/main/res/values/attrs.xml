@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <declare-styleable name="CircularImageButton">
+        <attr name="cib_icon" format="reference" />
+        <attr name="cib_iconWidth" format="dimension" />
+        <attr name="cib_iconHeight" format="dimension" />
+    </declare-styleable>
     <declare-styleable name="CustomFavoriteButton">
         <attr name="state" format="boolean" />
     </declare-styleable>

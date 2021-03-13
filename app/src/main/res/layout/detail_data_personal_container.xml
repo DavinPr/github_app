@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/detail_bio"
+        style="@style/Theme.GithubMobile.Text.Regular.14"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawablePadding="8dp"
+        android:gravity="center_vertical"
+        android:text="@string/bio" />
+
+    <TextView
+        android:id="@+id/detail_company"
+        style="@style/Theme.GithubMobile.Text.Regular.14"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:drawablePadding="8dp"
+        android:gravity="center_vertical"
+        android:text="@string/company"
+        app:drawableStartCompat="@drawable/ic_work" />
+
+    <TextView
+        android:id="@+id/detail_blog"
+        style="@style/Theme.GithubMobile.Text.Medium.14"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:drawablePadding="8dp"
+        android:gravity="center_vertical"
+        android:text="@string/blog"
+        app:drawableStartCompat="@drawable/ic_link" />
+
+    <TextView
+        android:id="@+id/detail_location"
+        style="@style/Theme.GithubMobile.Text.Regular.14"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:drawablePadding="8dp"
+        android:gravity="center_vertical"
+        android:text="@string/location"
+        app:drawableStartCompat="@drawable/ic_location" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_open_in_github"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_open_github_btn"
+        app:backgroundTint="@null"
+        style="@style/Theme.GithubMobile.Text.Medium.14"
+        android:elevation="4dp"
+        android:textColor="@color/white"
+        android:text="@string/open_in_github"
+        android:textAllCaps="false"
+        android:layout_marginTop="16dp"
+        />
+
+</LinearLayout>

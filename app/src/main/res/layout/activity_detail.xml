@@ -33,7 +33,7 @@
                 android:layout_height="150dp"
                 android:layout_gravity="center_horizontal|bottom"
                 android:src="@color/gray"
-                app:civ_border_color="@color/white"
+                app:civ_border_color="@color/gray"
                 app:civ_border_width="2dp" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>

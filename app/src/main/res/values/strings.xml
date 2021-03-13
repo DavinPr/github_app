@@ -6,10 +6,17 @@
     <string name="following">following</string>
     <string name="company">Company</string>
     <string name="location">Location</string>
-    <string name="repository">Repository</string>
+    <string name="repositories">Repositories</string>
     <string name="favorite">Favorite</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="search">Search</string>
     <string name="search_on_github">Search on Github</string>
+    <string name="no_name">No Name</string>
+    <string name="n_a">N/A</string>
+    <string name="starred">Starred</string>
+    <string name="bio">Bio</string>
+    <string name="blog">Blog</string>
+    <string name="gist">Gists</string>
+    <string name="open_in_github">Open in Github</string>
 </resources>
