@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical">
@@ -10,20 +9,22 @@
         android:id="@+id/btn_back"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:backgroundTint="@color/gray"
         android:background="@null"
         app:cib_icon="@drawable/ic_back"
-        app:tint="@color/white" />
+        app:cib_iconTint="@color/white"/>
 
-    <com.app.githubmobile.customview.CustomFavoriteButton
+    <com.app.githubmobile.customview.CustomToggleButton
         android:id="@+id/btn_favorite"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
         android:layout_gravity="end"
+        android:checked="false"
+        app:ctb_iconOn="@drawable/ic_favorite"
+        app:ctb_iconOff="@drawable/ic_favorite_border"
+        android:backgroundTint="@color/gray"
+        android:textOff="@null"
+        android:textOn="@null"
         android:layout_marginEnd="@dimen/button_margin"
-        android:background="@null"
-        app:cib_icon="@drawable/ic_favorite"
-        app:tint="@color/gray"
-        tools:ignore="ContentDescription" />
+        />
 
 </androidx.appcompat.widget.Toolbar>

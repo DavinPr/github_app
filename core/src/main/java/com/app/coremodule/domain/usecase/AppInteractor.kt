@@ -28,4 +28,8 @@ class AppInteractor(private val repository: AppRepository) : AppUseCase {
     override fun putFragmentTag(tag: String) = repository.putFragmentTag(tag)
 
     override fun getFragmentTag(): String? = repository.getFragmentTag()
+
+    override fun putDetailFragmentTag(tag: String) = repository.putDetailFragmentTag(tag)
+
+    override fun getDetailFragmentTag(): String? = repository.getDetailFragmentTag()
 }

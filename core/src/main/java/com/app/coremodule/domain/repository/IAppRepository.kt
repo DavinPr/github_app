@@ -17,4 +17,7 @@ interface IAppRepository {
 
     fun putFragmentTag(tag: String)
     fun getFragmentTag(): String?
+
+    fun putDetailFragmentTag(tag: String)
+    fun getDetailFragmentTag(): String?
 }

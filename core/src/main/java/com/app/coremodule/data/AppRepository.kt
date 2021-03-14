@@ -103,4 +103,12 @@ class AppRepository(
 
     override fun getFragmentTag(): String? = localDataSource.getFragmentTag()
 
+    override fun putDetailFragmentTag(tag: String) {
+        appExecutors.diskIO().execute {
+            localDataSource.putDetailFragmentTag(tag)
+        }
+    }
+
+    override fun getDetailFragmentTag(): String? = localDataSource.getDetailFragmentTag()
+
 }

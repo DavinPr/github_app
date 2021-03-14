@@ -12,4 +12,7 @@ class LocalDataSource(private val dao: AppDao, private val sharedPref: ISharedPr
 
     fun putFragmentTag(tag : String) = sharedPref.putFragmentTag(tag)
     fun getFragmentTag() : String? = sharedPref.getFragmentTag()
+
+    fun putDetailFragmentTag(tag : String) = sharedPref.putDetailFragmentTag(tag)
+    fun getDetailFragmentTag() : String? = sharedPref.getDetailFragmentTag()
 }

@@ -57,13 +57,13 @@ class DashboardFragment : Fragment(), View.OnClickListener {
                 startActivity(intent)
             }
             binding.search.id -> {
-                val mCategoryFragment = SearchFragment()
+                val mSearchFragment = SearchFragment()
                 val mFragmentManager = fragmentManager
                 val tag = SearchFragment::class.java.simpleName
                 mFragmentManager?.beginTransaction()?.apply {
                     replace(
                         R.id.home_container,
-                        mCategoryFragment,
+                        mSearchFragment,
                         tag
                     )
                     addToBackStack(null)

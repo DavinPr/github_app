@@ -2,10 +2,12 @@
 <resources>
     <declare-styleable name="CircularImageButton">
         <attr name="cib_icon" format="reference" />
-        <attr name="cib_iconWidth" format="dimension" />
-        <attr name="cib_iconHeight" format="dimension" />
+        <attr name="cib_iconTint" format="color" />
+        <attr name="cib_backgroundTint" format="color" />
     </declare-styleable>
-    <declare-styleable name="CustomFavoriteButton">
-        <attr name="state" format="boolean" />
+    <declare-styleable name="CustomToggleButton">
+        <attr name="ctb_state" format="boolean" />
+        <attr name="ctb_iconOn" format="reference" />
+        <attr name="ctb_iconOff" format="reference" />
     </declare-styleable>
 </resources>
