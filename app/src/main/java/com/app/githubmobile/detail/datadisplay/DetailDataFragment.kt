@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.text.SpannableStringBuilder
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,7 +23,8 @@ import com.app.githubmobile.detail.userfollow.UserFollowFragment
 import com.app.githubmobile.helper.shortNumberDisplay
 import com.bumptech.glide.Glide
 import com.google.android.material.appbar.AppBarLayout
-import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.scope.emptyState
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
@@ -44,7 +46,7 @@ class DetailDataFragment : Fragment(), AppBarLayout.OnOffsetChangedListener,
 
     private lateinit var toolbar: Toolbar
 
-    private val viewModel: DetailViewModel by viewModel()
+    private val viewModel: DetailViewModel by sharedViewModel(state = emptyState())
 
     private var avatarExpandSize = 0f
     private var avatarCollapseSize = 0f
@@ -64,12 +66,15 @@ class DetailDataFragment : Fragment(), AppBarLayout.OnOffsetChangedListener,
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentDetailDataBinding.inflate(inflater, container, false)
+        Log.d("test ocv", "called")
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        Log.d("test ovc", "called")
         toolbar = binding.toolbar.root
         (activity as AppCompatActivity).apply {
             setSupportActionBar(toolbar)
@@ -79,7 +84,7 @@ class DetailDataFragment : Fragment(), AppBarLayout.OnOffsetChangedListener,
         val username: String? = arguments?.getString(dataKey, null)
 
         if (username != null) {
-            viewModel.getDetailData(username).observe(this) { detail ->
+            viewModel.getDetailData(username).observe(viewLifecycleOwner) { detail ->
                 when (detail) {
                     is Resource.Loading -> {
                     }
@@ -87,6 +92,7 @@ class DetailDataFragment : Fragment(), AppBarLayout.OnOffsetChangedListener,
                         val data = detail.data
                         if (data != null) {
                             dataBinding(data)
+                            viewModel.putDetailDataState(data)
                         }
                     }
                     is Resource.Error -> {
@@ -299,7 +305,7 @@ class DetailDataFragment : Fragment(), AppBarLayout.OnOffsetChangedListener,
             dataContainer.detailFollowers.id,
             dataContainer.detailFollowing.id -> {
                 val mUserFollowFragment = UserFollowFragment()
-                val mFragmentManager = fragmentManager
+                val mFragmentManager = activity?.supportFragmentManager
                 val tag = UserFollowFragment::class.java.simpleName
                 mFragmentManager?.beginTransaction()?.apply {
                     replace(
@@ -313,5 +319,17 @@ class DetailDataFragment : Fragment(), AppBarLayout.OnOffsetChangedListener,
                 viewModel.putDetailFragmentTag(tag)
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getDetailDataState.observe(viewLifecycleOwner) { detail ->
+            dataBinding(detail)
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.clearState
     }
 }

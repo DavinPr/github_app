@@ -10,7 +10,7 @@ import com.app.coremodule.data.Resource
 import com.app.githubmobile.adapter.UserListAdapter
 import com.app.githubmobile.databinding.ActivityFavoriteBinding
 import com.app.githubmobile.detail.DetailActivity
-import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FavoriteActivity : AppCompatActivity() {
 

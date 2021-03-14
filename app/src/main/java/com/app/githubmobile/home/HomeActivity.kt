@@ -8,7 +8,7 @@ import com.app.githubmobile.databinding.ActivityHomeBinding
 import com.app.githubmobile.home.dashboard.DashboardFragment
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
-import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @FlowPreview
 @ExperimentalCoroutinesApi

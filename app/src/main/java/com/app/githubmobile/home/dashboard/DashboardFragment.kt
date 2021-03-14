@@ -14,7 +14,7 @@ import com.app.githubmobile.home.HomeViewModel
 import com.app.githubmobile.home.search.SearchFragment
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
-import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 @FlowPreview
 @ExperimentalCoroutinesApi
@@ -23,7 +23,7 @@ class DashboardFragment : Fragment(), View.OnClickListener {
     private var _binding: FragmentDashboardBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: HomeViewModel by viewModel()
+    private val viewModel by sharedViewModel<HomeViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,7 +58,7 @@ class DashboardFragment : Fragment(), View.OnClickListener {
             }
             binding.search.id -> {
                 val mSearchFragment = SearchFragment()
-                val mFragmentManager = fragmentManager
+                val mFragmentManager =  activity?.supportFragmentManager
                 val tag = SearchFragment::class.java.simpleName
                 mFragmentManager?.beginTransaction()?.apply {
                     replace(

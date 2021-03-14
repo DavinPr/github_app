@@ -6,7 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.app.githubmobile.R
 import com.app.githubmobile.databinding.ActivityDetailBinding
 import com.app.githubmobile.detail.datadisplay.DetailDataFragment
-import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.scope.emptyState
 
 class DetailActivity : AppCompatActivity() {
 
@@ -16,7 +17,7 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private lateinit var binding: ActivityDetailBinding
-    private val viewModel: DetailViewModel by viewModel()
+    private val viewModel: DetailViewModel by viewModel(state = emptyState())
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
