@@ -12,12 +12,9 @@ class DetailViewModel(private val state: SavedStateHandle, private val useCase: 
 
     fun getDetailData(username: String) = useCase.getDetailUser(username).asLiveData()
     fun putDetailDataState(detail: Detail) {
-        if (state.contains("detail_data")){
-            state.remove<Detail>("detail_data")
-        }
-        state["detail_data"] = detail
+        state.set("detail_data", detail)
     }
-
+    val isSaved = state.contains("detail_data")
     val getDetailDataState = state.getLiveData<Detail>("detail_data")
 
     val clearState = state.remove<Detail>("detail_data")

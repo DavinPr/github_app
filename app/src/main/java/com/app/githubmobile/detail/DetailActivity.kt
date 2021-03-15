@@ -41,7 +41,6 @@ class DetailActivity : AppCompatActivity() {
                     tag
                 )
                 .commit()
-
             viewModel.putDetailFragmentTag(tag)
         } else {
             supportFragmentManager.getFragment(savedInstanceState, FRAGMENT_RESULT)

@@ -4,7 +4,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.text.SpannableStringBuilder
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,6 +44,7 @@ class DetailDataFragment : Fragment(), AppBarLayout.OnOffsetChangedListener,
     }
 
     private lateinit var toolbar: Toolbar
+    private var username: String? = null
 
     private val viewModel: DetailViewModel by sharedViewModel(state = emptyState())
 
@@ -66,7 +66,6 @@ class DetailDataFragment : Fragment(), AppBarLayout.OnOffsetChangedListener,
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentDetailDataBinding.inflate(inflater, container, false)
-        Log.d("test ocv", "called")
 
         return binding.root
     }
@@ -74,7 +73,6 @@ class DetailDataFragment : Fragment(), AppBarLayout.OnOffsetChangedListener,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Log.d("test ovc", "called")
         toolbar = binding.toolbar.root
         (activity as AppCompatActivity).apply {
             setSupportActionBar(toolbar)
@@ -84,6 +82,13 @@ class DetailDataFragment : Fragment(), AppBarLayout.OnOffsetChangedListener,
         val username: String? = arguments?.getString(dataKey, null)
 
         if (username != null) {
+            this.username = username
+//            if (viewModel.isSaved){
+//                viewModel.getDetailDataState.observe(viewLifecycleOwner){ detail ->
+//                    dataBinding(detail)
+//
+//                }
+//            }else{
             viewModel.getDetailData(username).observe(viewLifecycleOwner) { detail ->
                 when (detail) {
                     is Resource.Loading -> {
@@ -100,6 +105,7 @@ class DetailDataFragment : Fragment(), AppBarLayout.OnOffsetChangedListener,
                 }
             }
         }
+//        }
 
         avatarExpandSize = resources.getDimension(R.dimen.default_expanded_image_size)
         avatarCollapseSize = resources.getDimension(R.dimen.default_collapsed_image_size)
@@ -305,6 +311,10 @@ class DetailDataFragment : Fragment(), AppBarLayout.OnOffsetChangedListener,
             dataContainer.detailFollowers.id,
             dataContainer.detailFollowing.id -> {
                 val mUserFollowFragment = UserFollowFragment()
+                val username = Bundle()
+                username.putString(UserFollowFragment.USERNAME_KEY, this.username)
+                mUserFollowFragment.arguments = username
+
                 val mFragmentManager = activity?.supportFragmentManager
                 val tag = UserFollowFragment::class.java.simpleName
                 mFragmentManager?.beginTransaction()?.apply {
@@ -319,17 +329,5 @@ class DetailDataFragment : Fragment(), AppBarLayout.OnOffsetChangedListener,
                 viewModel.putDetailFragmentTag(tag)
             }
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.getDetailDataState.observe(viewLifecycleOwner) { detail ->
-            dataBinding(detail)
-        }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        viewModel.clearState
     }
 }

@@ -19,4 +19,6 @@
     <string name="blog">Blog</string>
     <string name="gist">Gists</string>
     <string name="open_in_github">Open in Github</string>
+    <string name="tab_followers">Followers</string>
+    <string name="tab_following">Following</string>
 </resources>
