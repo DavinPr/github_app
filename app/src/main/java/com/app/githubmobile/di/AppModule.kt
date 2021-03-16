@@ -19,5 +19,5 @@ val useCaseModule = module {
 val viewModelModule = module {
     viewModel { HomeViewModel(get()) }
     viewModel { FavoriteViewModel(get()) }
-    viewModel { DetailViewModel(get(), get()) }
+    viewModel { DetailViewModel(get()) }
 }

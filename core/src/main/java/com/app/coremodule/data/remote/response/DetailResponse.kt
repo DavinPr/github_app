@@ -23,7 +23,7 @@ data class DetailResponse(
 	val createdAt: String? = null,
 
 	@field:SerializedName("login")
-	val login: String? = null,
+	val login: String,
 
 	@field:SerializedName("type")
 	val type: String? = null,

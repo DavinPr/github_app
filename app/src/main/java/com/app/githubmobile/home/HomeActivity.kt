@@ -2,6 +2,7 @@ package com.app.githubmobile.home
 
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.app.githubmobile.R
 import com.app.githubmobile.databinding.ActivityHomeBinding
@@ -34,6 +35,7 @@ class HomeActivity : AppCompatActivity() {
                 .add(R.id.home_container, DashboardFragment(), tag)
                 .commit()
             viewModel.putFragmentTag(tag)
+            Log.d("davin", "davin")
         } else {
             supportFragmentManager.getFragment(savedInstanceState, FRAGMENT_RESULT)
         }

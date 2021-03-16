@@ -2,7 +2,6 @@ package com.app.githubmobile.favorite
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,18 +28,15 @@ class FavoriteActivity : AppCompatActivity() {
         viewModel.getAllFavorite().observe(this) { favorite ->
             when (favorite) {
                 is Resource.Loading -> {
-                    Toast.makeText(this, "Loading", Toast.LENGTH_SHORT).show()
                 }
                 is Resource.Success -> {
                     val data = favorite.data
                     if (data != null) {
                         userAdapter.setData(data)
                     } else {
-                        Toast.makeText(this, "null", Toast.LENGTH_SHORT).show()
                     }
                 }
                 is Resource.Error -> {
-                    Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show()
                 }
             }
         }

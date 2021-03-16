@@ -1,6 +1,6 @@
 package com.app.coremodule.utils
 
-import com.app.coremodule.data.local.model.FavoriteEntity
+import com.app.coremodule.data.local.entity.FavoriteEntity
 import com.app.coremodule.data.remote.response.DetailResponse
 import com.app.coremodule.data.remote.response.UserItem
 import com.app.coremodule.domain.usecase.model.Detail
@@ -24,7 +24,6 @@ object DataMapper {
     fun mapDetailResponseToDomain(detail: DetailResponse): Detail =
         detail.let {
             Detail(
-                twitterUsername = it.twitterUsername,
                 bio = it.bio,
                 login = it.login,
                 blog = it.blog,
@@ -32,33 +31,68 @@ object DataMapper {
                 id =
                 it.id,
                 publicRepos = it.publicRepos,
-                email = it.email,
                 publicGists = it.publicGists,
                 followers = it.followers,
                 avatar = it.avatarUrl,
                 htmlUrl = it.htmlUrl,
                 following = it.following,
                 name = it.name,
-                location = it.location
+                location = it.location,
+                isFavorite = false
             )
         }
 
-    fun mapEntityToDomain(favoriteEntity: List<FavoriteEntity>): List<User> {
+    fun mapListEntityToDomain(favoriteEntity: List<FavoriteEntity>): List<User> {
         val list = ArrayList<User>()
         favoriteEntity.map {
             val user = User(
                 avatar = it.avatar,
-                username = it.username
+                username = it.login,
+                name = it.name
             )
             list.add(user)
         }
         return list
     }
 
-    fun mapDomainToEntity(user: User): FavoriteEntity {
+    fun mapDetailEntityToDomain(entity: FavoriteEntity?): Detail {
+        return if (entity != null) {
+            Detail(
+                bio = entity.bio,
+                login = entity.login,
+                blog = entity.blog,
+                company = entity.company,
+                id = entity.id,
+                publicRepos = entity.publicRepos,
+                publicGists = entity.publicGists,
+                followers = entity.followers,
+                avatar = entity.avatar,
+                htmlUrl = entity.htmlUrl,
+                following = entity.following,
+                name = entity.name,
+                location = entity.location,
+                isFavorite = true
+            )
+        } else {
+            Detail()
+        }
+    }
+
+    fun mapDomainToEntity(detail: Detail): FavoriteEntity {
         return FavoriteEntity(
-            avatar = user.avatar,
-            username = user.username
+            bio = detail.bio,
+            login = detail.login ?: "",
+            blog = detail.blog,
+            company = detail.company,
+            id = detail.id,
+            publicRepos = detail.publicRepos,
+            publicGists = detail.publicGists,
+            followers = detail.followers,
+            avatar = detail.avatar,
+            htmlUrl = detail.htmlUrl,
+            following = detail.following,
+            name = detail.name,
+            location = detail.location
         )
     }
 }

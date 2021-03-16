@@ -3,6 +3,8 @@ package com.app.githubmobile.detail.datadisplay
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.SpannableStringBuilder
 import android.view.LayoutInflater
 import android.view.View
@@ -23,7 +25,6 @@ import com.app.githubmobile.helper.shortNumberDisplay
 import com.bumptech.glide.Glide
 import com.google.android.material.appbar.AppBarLayout
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import org.koin.androidx.viewmodel.scope.emptyState
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
@@ -45,8 +46,8 @@ class DetailDataFragment : Fragment(), AppBarLayout.OnOffsetChangedListener,
 
     private lateinit var toolbar: Toolbar
     private var username: String? = null
-
-    private val viewModel: DetailViewModel by sharedViewModel(state = emptyState())
+    private var detail: Detail? = null
+    private val viewModel: DetailViewModel by sharedViewModel()
 
     private var avatarExpandSize = 0f
     private var avatarCollapseSize = 0f
@@ -58,7 +59,13 @@ class DetailDataFragment : Fragment(), AppBarLayout.OnOffsetChangedListener,
     private var avatarAnimateStartPointY: Float = 0F
     private var avatarCollapseAnimationChangeWeight: Float = 0F
     private var isCalculated = false
+    private var isCollapsed = false
     private var verticalToolbarAvatarMargin = 0F
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        retainInstance = true
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,7 +73,6 @@ class DetailDataFragment : Fragment(), AppBarLayout.OnOffsetChangedListener,
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentDetailDataBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
@@ -79,34 +85,6 @@ class DetailDataFragment : Fragment(), AppBarLayout.OnOffsetChangedListener,
             supportActionBar?.title = null
         }
 
-        val username: String? = arguments?.getString(dataKey, null)
-
-        if (username != null) {
-            this.username = username
-//            if (viewModel.isSaved){
-//                viewModel.getDetailDataState.observe(viewLifecycleOwner){ detail ->
-//                    dataBinding(detail)
-//
-//                }
-//            }else{
-            viewModel.getDetailData(username).observe(viewLifecycleOwner) { detail ->
-                when (detail) {
-                    is Resource.Loading -> {
-                    }
-                    is Resource.Success -> {
-                        val data = detail.data
-                        if (data != null) {
-                            dataBinding(data)
-                            viewModel.putDetailDataState(data)
-                        }
-                    }
-                    is Resource.Error -> {
-                    }
-                }
-            }
-        }
-//        }
-
         avatarExpandSize = resources.getDimension(R.dimen.default_expanded_image_size)
         avatarCollapseSize = resources.getDimension(R.dimen.default_collapsed_image_size)
         btntnMargin = resources.getDimension(R.dimen.button_margin)
@@ -114,33 +92,114 @@ class DetailDataFragment : Fragment(), AppBarLayout.OnOffsetChangedListener,
 
         binding.appbar.addOnOffsetChangedListener(this)
         binding.toolbar.apply {
-//            btnFavorite.also {
-//
-//                it.setOnClickListener { _ ->
-//                    if (it.getState()) {
-//                        /* delete */
-//                        if (data != null) {
-//                            viewModel.deleteFavorite(data)
-//                            Toast.makeText(this@DetailActivity, "Deleted", Toast.LENGTH_SHORT)
-//                                .show()
-//                        }
-//                    } else {
-//                        /* insert */
-//                        if (data != null) {
-//                            viewModel.insertFavorite(data)
-//                            Toast.makeText(this@DetailActivity, "Inserted", Toast.LENGTH_SHORT)
-//                                .show()
-//                        }
-//                    }
-//                    it.setState(!it.getState())
-//                }
-//            }
+            btnFavorite.also {
+                it.setOnCheckedChangeListener { _, isChecked ->
+                    if (detail != null) {
+                        if (isChecked) {
+                            viewModel.insertFavorite(detail!!)
+                        } else {
+                            viewModel.deleteFavorite(detail!!)
+                        }
+                    }
+                }
+            }
+            btnFavorite.setOnClickListener(this@DetailDataFragment)
             btnBack.setOnClickListener(this@DetailDataFragment)
-            binding.dataContainer.apply {
-                detailFollowers.setOnClickListener(this@DetailDataFragment)
-                detailFollowing.setOnClickListener(this@DetailDataFragment)
+        }
+        binding.dataContainer.apply {
+            detailFollowers.setOnClickListener(this@DetailDataFragment)
+            detailFollowing.setOnClickListener(this@DetailDataFragment)
+        }
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        val username: String? = arguments?.getString(dataKey, null)
+
+        if (username != null) {
+            this.username = username
+
+            viewModel.isFavorite(username).observe(viewLifecycleOwner) { favorite ->
+                binding.toolbar.btnFavorite.apply {
+                    isChecked = favorite
+                }
+            }
+
+            viewModel.getDetailData(username).observe(viewLifecycleOwner) { detail ->
+                when (detail) {
+                    is Resource.Loading -> {
+                    }
+                    is Resource.Success -> {
+                        val data = detail.data
+                        if (data != null) {
+                            this.detail = data
+                            dataBinding(data)
+                        }
+                    }
+                    is Resource.Error -> {
+                    }
+                }
             }
         }
+    }
+
+    override fun onOffsetChanged(appBarLayout: AppBarLayout, verticalOffset: Int) {
+        if (isCalculated.not()) {
+            avatarAnimateStartPointY =
+                abs((appBarLayout.height - (avatarExpandSize + toolbar.height)) / appBarLayout.totalScrollRange)
+            avatarCollapseAnimationChangeWeight = 1 / (1 - avatarAnimateStartPointY)
+            verticalToolbarAvatarMargin = (toolbar.height - avatarCollapseSize) * 2
+            isCalculated = true
+        }
+        updateViews(abs(verticalOffset / appBarLayout.totalScrollRange.toFloat()))
+    }
+
+    override fun onClick(v: View?) {
+        val dataContainer = binding.dataContainer
+        when (v?.id) {
+            binding.toolbar.btnBack.id -> activity?.finish()
+
+            dataContainer.detailFollowers.id,
+            dataContainer.detailFollowing.id -> {
+                val selectedTab = if (v.id == dataContainer.detailFollowers.id) 0 else 1
+                if (isCollapsed) {
+                    binding.appbar.setExpanded(true)
+
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        goToUserFollow(selectedTab)
+                    }, 300)
+                } else {
+                    goToUserFollow(selectedTab)
+                }
+            }
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    private fun goToUserFollow(selected: Int) {
+        val mUserFollowFragment = UserFollowFragment()
+        val bundle = Bundle()
+        bundle.putString(UserFollowFragment.USERNAME_KEY, this.username)
+        bundle.putInt(UserFollowFragment.TAB_KEY, selected)
+        mUserFollowFragment.arguments = bundle
+
+        val mFragmentManager = activity?.supportFragmentManager
+        val tag = UserFollowFragment::class.java.simpleName
+        mFragmentManager?.beginTransaction()?.apply {
+            replace(
+                R.id.detail_fragment_container,
+                mUserFollowFragment,
+                tag
+            )
+            addToBackStack(null)
+            commit()
+        }
+        viewModel.putDetailFragmentTag(tag)
     }
 
     private fun dataBinding(detail: Detail) {
@@ -198,17 +257,6 @@ class DetailDataFragment : Fragment(), AppBarLayout.OnOffsetChangedListener,
         }
     }
 
-    override fun onOffsetChanged(appBarLayout: AppBarLayout, verticalOffset: Int) {
-        if (isCalculated.not()) {
-            avatarAnimateStartPointY =
-                abs((appBarLayout.height - (avatarExpandSize + toolbar.height)) / appBarLayout.totalScrollRange)
-            avatarCollapseAnimationChangeWeight = 1 / (1 - avatarAnimateStartPointY)
-            verticalToolbarAvatarMargin = (toolbar.height - avatarCollapseSize) * 2
-            isCalculated = true
-        }
-        updateViews(abs(verticalOffset / appBarLayout.totalScrollRange.toFloat()))
-    }
-
     private fun updateViews(offset: Float) {
         /** collapse - expand switch*/
         when {
@@ -226,6 +274,7 @@ class DetailDataFragment : Fragment(), AppBarLayout.OnOffsetChangedListener,
                     when (first) {
                         TO_EXPANDED -> {
                             /* set avatar on start position (center of parent frame layout)*/
+                            isCollapsed = false
                             binding.detailAvatar.translationX = 0F
                             binding.detailAvatar.borderColor =
                                 ContextCompat.getColor(requireContext(), R.color.gray)
@@ -244,6 +293,7 @@ class DetailDataFragment : Fragment(), AppBarLayout.OnOffsetChangedListener,
                             }
                         }
                         TO_COLLAPSED -> {
+                            isCollapsed = true
                             binding.detailAvatar.borderColor =
                                 ContextCompat.getColor(requireContext(), R.color.white)
                             (activity as AppCompatActivity).window.statusBarColor =
@@ -299,34 +349,6 @@ class DetailDataFragment : Fragment(), AppBarLayout.OnOffsetChangedListener,
                         translationX = 0f
                     }
                 }
-            }
-        }
-    }
-
-    override fun onClick(v: View?) {
-        val dataContainer = binding.dataContainer
-        when (v?.id) {
-            binding.toolbar.btnBack.id -> activity?.finish()
-
-            dataContainer.detailFollowers.id,
-            dataContainer.detailFollowing.id -> {
-                val mUserFollowFragment = UserFollowFragment()
-                val username = Bundle()
-                username.putString(UserFollowFragment.USERNAME_KEY, this.username)
-                mUserFollowFragment.arguments = username
-
-                val mFragmentManager = activity?.supportFragmentManager
-                val tag = UserFollowFragment::class.java.simpleName
-                mFragmentManager?.beginTransaction()?.apply {
-                    replace(
-                        R.id.detail_fragment_container,
-                        mUserFollowFragment,
-                        tag
-                    )
-                    addToBackStack(null)
-                    commit()
-                }
-                viewModel.putDetailFragmentTag(tag)
             }
         }
     }

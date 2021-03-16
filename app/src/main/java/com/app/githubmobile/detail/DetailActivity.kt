@@ -1,13 +1,11 @@
 package com.app.githubmobile.detail
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
 import com.app.githubmobile.R
 import com.app.githubmobile.databinding.ActivityDetailBinding
 import com.app.githubmobile.detail.datadisplay.DetailDataFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.androidx.viewmodel.scope.emptyState
 
 class DetailActivity : AppCompatActivity() {
 
@@ -17,7 +15,7 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private lateinit var binding: ActivityDetailBinding
-    private val viewModel: DetailViewModel by viewModel(state = emptyState())
+    private val viewModel by viewModel<DetailViewModel>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,11 +45,15 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
-        super.onSaveInstanceState(outState, outPersistentState)
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
         val fragment = supportFragmentManager.findFragmentByTag(viewModel.getDetailFragmentTag())
         if (fragment != null) {
             supportFragmentManager.putFragment(outState, FRAGMENT_RESULT, fragment)
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 }

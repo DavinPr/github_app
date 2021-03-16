@@ -1,42 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".detail.userfollow.UserFollowFragment">
 
-    <ImageButton
-        android:id="@+id/btn_close"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/divider_line"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:background="@null"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        android:src="@drawable/ic_close"
-        app:tint="@color/black"
-        tools:ignore="ContentDescription" />
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:titleTextAppearance="@style/Theme.GithubMobile.Text.Semibold.18"
+        app:titleMarginStart="0dp"
+        />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toStartOf="@id/btn_close" />
+        app:tabIndicatorColor="@color/black"
+        app:tabIndicatorHeight="0.75dp"
+        app:tabSelectedTextColor="@color/black"
+        app:tabTextAppearance="@style/Theme.GithubMobile.Text.Medium.14"
+        />
 
     <View
         android:id="@+id/divider_line"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:layout_below="@id/tab_layout"
         android:background="@color/gray" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/divider_line" />
+        android:layout_height="match_parent"/>
 
-</RelativeLayout>
+</LinearLayout>

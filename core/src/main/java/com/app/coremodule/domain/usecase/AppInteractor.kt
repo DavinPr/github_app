@@ -21,9 +21,11 @@ class AppInteractor(private val repository: AppRepository) : AppUseCase {
 
     override fun getAllFavorite(): Flow<Resource<List<User>>> = repository.getAllFavorite()
 
-    override fun insertFavorite(user: User) = repository.insertFavorite(user)
+    override fun insertFavorite(detail: Detail) = repository.insertFavorite(detail)
 
-    override fun deleteFavorite(user: User) = repository.deleteFavorite(user)
+    override fun deleteFavorite(detail: Detail) = repository.deleteFavorite(detail)
+
+    override fun isFavorite(username: String): Flow<Boolean> = repository.isFavorite(username)
 
     override fun putFragmentTag(tag: String) = repository.putFragmentTag(tag)
 
