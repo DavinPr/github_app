@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import com.app.githubmobile.R
 import com.app.githubmobile.databinding.FragmentDashboardBinding
 import com.app.githubmobile.favorite.FavoriteActivity
+import com.app.githubmobile.home.HomeActivity
 import com.app.githubmobile.home.HomeViewModel
 import com.app.githubmobile.home.search.SearchFragment
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -42,10 +43,12 @@ class DashboardFragment : Fragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
+        if (savedInstanceState == null) {
+            (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
 
-        binding.btnFavorite.setOnClickListener(this)
-        binding.search.setOnClickListener(this)
+            binding.btnFavorite.setOnClickListener(this)
+            binding.search.setOnClickListener(this)
+        }
     }
 
     @ExperimentalCoroutinesApi
@@ -58,7 +61,7 @@ class DashboardFragment : Fragment(), View.OnClickListener {
             }
             binding.search.id -> {
                 val mSearchFragment = SearchFragment()
-                val mFragmentManager =  activity?.supportFragmentManager
+                val mFragmentManager = activity?.supportFragmentManager
                 val tag = SearchFragment::class.java.simpleName
                 mFragmentManager?.beginTransaction()?.apply {
                     replace(
@@ -69,13 +72,17 @@ class DashboardFragment : Fragment(), View.OnClickListener {
                     addToBackStack(null)
                     commit()
                 }
-                viewModel.putFragmentTag(tag)
             }
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.putFragmentTag(DashboardFragment::class.java.simpleName)
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        (activity as AppCompatActivity).supportFragmentManager.putFragment(
+            outState,
+            HomeActivity.FRAGMENT_RESULT,
+            this
+        )
     }
+
 }

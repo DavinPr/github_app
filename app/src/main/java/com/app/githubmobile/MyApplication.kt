@@ -18,7 +18,6 @@ class MyApplication : Application() {
     @ExperimentalCoroutinesApi
     override fun onCreate() {
         super.onCreate()
-
         startKoin {
             androidLogger(Level.ERROR)
             androidContext(this@MyApplication)

@@ -1,7 +1,6 @@
 package com.app.githubmobile.home
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.app.githubmobile.R
@@ -16,7 +15,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class HomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding
-    private val viewModel: HomeViewModel by viewModel()
 
     companion object {
         const val FRAGMENT_RESULT = "fragment_result"
@@ -34,20 +32,9 @@ class HomeActivity : AppCompatActivity() {
                 .beginTransaction()
                 .add(R.id.home_container, DashboardFragment(), tag)
                 .commit()
-            viewModel.putFragmentTag(tag)
-            Log.d("davin", "davin")
         } else {
             supportFragmentManager.getFragment(savedInstanceState, FRAGMENT_RESULT)
         }
 
-    }
-
-
-    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
-        super.onSaveInstanceState(outState, outPersistentState)
-        val fragment = supportFragmentManager.findFragmentByTag(viewModel.getFragmentTag)
-        if (fragment != null) {
-            supportFragmentManager.putFragment(outState, FRAGMENT_RESULT, fragment)
-        }
     }
 }

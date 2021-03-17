@@ -24,5 +24,4 @@ class HomeViewModel(private val useCase: AppUseCase) : ViewModel() {
 
     fun putFragmentTag(tag: String) = useCase.putFragmentTag(tag)
 
-    val getFragmentTag: String? = useCase.getFragmentTag()
 }

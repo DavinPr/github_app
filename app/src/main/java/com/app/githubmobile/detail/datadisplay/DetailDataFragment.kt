@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.text.SpannableStringBuilder
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -74,6 +75,8 @@ class DetailDataFragment : Fragment(), AppBarLayout.OnOffsetChangedListener,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        parentFragment?.tag?.let { Log.d("testDetail", it) }
+
         toolbar = binding.toolbar.root
         (activity as AppCompatActivity).apply {
             setSupportActionBar(toolbar)
@@ -84,6 +87,44 @@ class DetailDataFragment : Fragment(), AppBarLayout.OnOffsetChangedListener,
         avatarCollapseSize = resources.getDimension(R.dimen.default_collapsed_image_size)
         btntnMargin = resources.getDimension(R.dimen.button_margin)
         horizontalToolbarAvatarMargin = resources.getDimension(R.dimen.default_horizontal_margin)
+
+        val bundleData = arguments?.get(dataKey)
+
+        if (bundleData != null) {
+            when (bundleData) {
+                is String -> {
+                    Log.d("testInstance", "string")
+                    this.username = bundleData
+                    viewModel.getDetailData(bundleData).observe(viewLifecycleOwner) { detail ->
+                        when (detail) {
+                            is Resource.Loading -> {
+                            }
+                            is Resource.Success -> {
+                                val data = detail.data
+                                if (data != null) {
+                                    this.detail = data
+                                    if (this.detail != null) {
+                                        Log.d("testInstance2", "string")
+                                        dataBinding(this.detail!!)
+                                    }
+                                }
+                            }
+                            is Resource.Error -> {
+                            }
+                        }
+                    }
+                    Log.d("testInstance3", "string")
+                }
+                is Detail -> {
+                    Log.d("testInstance", "detail")
+                    this.username = bundleData.login
+                    this.detail = bundleData
+                    if (this.detail != null) {
+                        dataBinding(this.detail!!)
+                    }
+                }
+            }
+        }
 
         binding.appbar.addOnOffsetChangedListener(this)
         binding.toolbar.apply {
@@ -107,37 +148,10 @@ class DetailDataFragment : Fragment(), AppBarLayout.OnOffsetChangedListener,
         }
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        val username: String? = arguments?.getString(dataKey, null)
-
-        if (username != null) {
-            this.username = username
-
-            viewModel.isFavorite(username).observe(viewLifecycleOwner) { favorite ->
-                binding.toolbar.btnFavorite.apply {
-                    isChecked = favorite
-                }
-            }
-
-            viewModel.getDetailData(username).observe(viewLifecycleOwner) { detail ->
-                when (detail) {
-                    is Resource.Loading -> {
-                    }
-                    is Resource.Success -> {
-                        val data = detail.data
-                        if (data != null) {
-                            this.detail = data
-                            dataBinding(data)
-                        }
-                    }
-                    is Resource.Error -> {
-                    }
-                }
-            }
-        }
-    }
+//    override fun onResume() {
+//        super.onResume()
+//        this.tag?.let { viewModel.putDetailFragmentTag(it) }
+//    }
 
     override fun onOffsetChanged(appBarLayout: AppBarLayout, verticalOffset: Int) {
         if (isCalculated.not()) {
@@ -189,13 +203,16 @@ class DetailDataFragment : Fragment(), AppBarLayout.OnOffsetChangedListener,
             addToBackStack(null)
             commit()
         }
-        viewModel.putDetailFragmentTag(tag)
     }
 
     private fun dataBinding(detail: Detail) {
         Glide.with(this)
             .load(detail.avatar)
             .into(binding.detailAvatar)
+
+        binding.toolbar.btnFavorite.apply {
+            isChecked = detail.isFavorite
+        }
 
         binding.dataContainer.apply {
             detailName.text = detail.name ?: detailName.text

@@ -1,6 +1,7 @@
 package com.app.githubmobile.detail.userfollow.followers
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -58,9 +59,9 @@ class FollowersFragment : Fragment() {
             bundle.putString(DetailDataFragment.dataKey, it)
             mDetailDataFragment.arguments = bundle
 
-            val mFragmentManager = activity?.supportFragmentManager
-            val tag = DetailDataFragment::class.java.simpleName
-            mFragmentManager?.beginTransaction()?.apply {
+            val mFragmentManager = parentFragmentManager
+            val tag = mDetailDataFragment.toString()
+            mFragmentManager.beginTransaction().apply {
                 replace(
                     R.id.detail_fragment_container,
                     mDetailDataFragment,
@@ -69,7 +70,6 @@ class FollowersFragment : Fragment() {
                 addToBackStack(null)
                 commit()
             }
-            viewModel.putDetailFragmentTag(tag)
         }
 
         binding.rvFollowers.apply {

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -15,12 +16,13 @@ import com.app.coremodule.data.Resource
 import com.app.githubmobile.adapter.UserListAdapter
 import com.app.githubmobile.databinding.FragmentSearchBinding
 import com.app.githubmobile.detail.DetailActivity
+import com.app.githubmobile.home.HomeActivity
 import com.app.githubmobile.home.HomeViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @FlowPreview
 @ExperimentalCoroutinesApi
@@ -29,7 +31,7 @@ class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel by sharedViewModel<HomeViewModel>()
+    private val viewModel by viewModel<HomeViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -98,7 +100,7 @@ class SearchFragment : Fragment() {
         userAdapter.onClickItem = {
             val intent = Intent(activity, DetailActivity::class.java)
             intent.putExtra(DetailActivity.dataKey, it)
-            activity?.startActivity(intent)
+            context?.startActivity(intent)
         }
 
         binding.rvUsers.apply {
@@ -111,7 +113,14 @@ class SearchFragment : Fragment() {
         binding.btnBack.setOnClickListener {
             activity?.supportFragmentManager?.popBackStack()
         }
-
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        (activity as AppCompatActivity).supportFragmentManager.putFragment(
+            outState,
+            HomeActivity.FRAGMENT_RESULT,
+            this
+        )
+    }
 }

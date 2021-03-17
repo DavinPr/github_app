@@ -1,7 +1,9 @@
 package com.app.githubmobile.detail
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.app.coremodule.data.Resource
 import com.app.githubmobile.R
 import com.app.githubmobile.databinding.ActivityDetailBinding
 import com.app.githubmobile.detail.datadisplay.DetailDataFragment
@@ -23,37 +25,36 @@ class DetailActivity : AppCompatActivity() {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val username = intent.getStringExtra(dataKey)
-
         if (savedInstanceState == null) {
-            val dataFragment = DetailDataFragment()
-            val bundle = Bundle()
-            bundle.putString(DetailDataFragment.dataKey, username)
-            dataFragment.arguments = bundle
 
-            val tag = DetailDataFragment::class.java.simpleName
-            supportFragmentManager.beginTransaction()
-                .add(
-                    R.id.detail_fragment_container,
-                    dataFragment,
-                    tag
-                )
-                .commit()
-            viewModel.putDetailFragmentTag(tag)
-        } else {
-            supportFragmentManager.getFragment(savedInstanceState, FRAGMENT_RESULT)
+            val username = intent.getStringExtra(dataKey)
+
+            if (username != null) {
+                viewModel.getDetailData(username).observe(this) { detail ->
+                    when (detail) {
+                        is Resource.Loading -> {
+                        }
+                        is Resource.Success -> {
+                            val data = detail.data
+                            val dataFragment = DetailDataFragment()
+                            val bundle = Bundle()
+                            bundle.putParcelable(DetailDataFragment.dataKey, data)
+                            dataFragment.arguments = bundle
+
+                            val tag = dataFragment.toString()
+                            supportFragmentManager.beginTransaction()
+                                .replace(
+                                    R.id.detail_fragment_container,
+                                    dataFragment,
+                                    tag
+                                )
+                                .commit()
+                        }
+                        is Resource.Error -> {
+                        }
+                    }
+                }
+            }
         }
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        val fragment = supportFragmentManager.findFragmentByTag(viewModel.getDetailFragmentTag())
-        if (fragment != null) {
-            supportFragmentManager.putFragment(outState, FRAGMENT_RESULT, fragment)
-        }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
     }
 }
