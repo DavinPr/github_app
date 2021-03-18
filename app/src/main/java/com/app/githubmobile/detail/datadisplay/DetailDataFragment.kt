@@ -96,8 +96,12 @@ class DetailDataFragment : Fragment(), AppBarLayout.OnOffsetChangedListener,
             viewModel.getDetailData(username).observe(viewLifecycleOwner) { detail ->
                 when (detail) {
                     is Resource.Loading -> {
+                        binding.detailLoading.visibility = View.VISIBLE
+                        binding.coordinatorLayout.visibility = View.GONE
                     }
                     is Resource.Success -> {
+                        binding.coordinatorLayout.visibility = View.VISIBLE
+                        binding.detailLoading.visibility = View.GONE
                         val data = detail.data
                         if (data != null) {
                             if (_detail == null) {
@@ -109,6 +113,7 @@ class DetailDataFragment : Fragment(), AppBarLayout.OnOffsetChangedListener,
                         }
                     }
                     is Resource.Error -> {
+                        binding.detailLoading.visibility = View.GONE
                     }
                 }
             }

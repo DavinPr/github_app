@@ -1,12 +1,10 @@
 package com.app.githubmobile.detail
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.app.githubmobile.R
 import com.app.githubmobile.databinding.ActivityDetailBinding
 import com.app.githubmobile.detail.datadisplay.DetailDataFragment
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DetailActivity : AppCompatActivity() {
 
@@ -16,7 +14,6 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private lateinit var binding: ActivityDetailBinding
-    private val viewModel by viewModel<DetailViewModel>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,7 +23,6 @@ class DetailActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) {
 
-            Log.d("Load", "null")
 
             val username = intent.getStringExtra(dataKey)
 
@@ -42,7 +38,6 @@ class DetailActivity : AppCompatActivity() {
                 )
                 .commit()
         } else {
-            Log.d("Load", "twice")
             supportFragmentManager.getFragment(savedInstanceState, FRAGMENT_RESULT)
         }
     }

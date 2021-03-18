@@ -43,7 +43,6 @@ class DashboardFragment : Fragment(), View.OnClickListener {
 
         binding.btnFavorite.setOnClickListener(this)
         binding.search.setOnClickListener(this)
-
     }
 
     @ExperimentalCoroutinesApi
@@ -79,5 +78,4 @@ class DashboardFragment : Fragment(), View.OnClickListener {
             this
         )
     }
-
 }
