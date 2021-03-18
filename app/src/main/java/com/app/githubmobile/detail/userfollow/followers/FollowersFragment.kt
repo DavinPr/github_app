@@ -59,7 +59,6 @@ class FollowersFragment : Fragment() {
             mDetailDataFragment.arguments = bundle
 
             val mFragmentManager = parentFragmentManager
-            val tag = mDetailDataFragment.toString()
             mFragmentManager.beginTransaction().apply {
                 replace(
                     R.id.detail_fragment_container,

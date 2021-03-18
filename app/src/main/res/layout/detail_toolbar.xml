@@ -12,7 +12,7 @@
         android:layout_height="24dp"
         android:background="@null"
         app:cib_icon="@drawable/ic_back"
-        app:cib_iconTint="@color/white"/>
+        app:cib_iconTint="@color/white" />
 
     <ImageButton
         android:id="@+id/btn_favorite"
@@ -23,19 +23,5 @@
         android:backgroundTint="@android:color/transparent"
         android:src="@drawable/ic_detail_favorite_btn"
         tools:ignore="ContentDescription" />
-
-<!--    <com.app.githubmobile.customview.CustomToggleButton-->
-<!--        android:id="@+id/btn_favorite"-->
-<!--        android:layout_width="28dp"-->
-<!--        android:layout_height="28dp"-->
-<!--        android:layout_gravity="end"-->
-<!--        android:checked="false"-->
-<!--        app:ctb_iconOn="@drawable/ic_favorite"-->
-<!--        app:ctb_iconOff="@drawable/ic_favorite_border"-->
-<!--        android:backgroundTint="@color/gray"-->
-<!--        android:textOff="@null"-->
-<!--        android:textOn="@null"-->
-<!--        android:layout_marginEnd="@dimen/button_margin"-->
-<!--        />-->
 
 </androidx.appcompat.widget.Toolbar>

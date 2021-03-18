@@ -35,27 +35,12 @@ class DetailActivity : AppCompatActivity() {
             bundle.putString(DetailDataFragment.dataKey, username)
             dataFragment.arguments = bundle
 
-//            val tag = dataFragment.toString()
             supportFragmentManager.beginTransaction()
                 .add(
                     R.id.detail_fragment_container,
                     dataFragment
                 )
                 .commit()
-
-//            if (username != null) {
-//                viewModel.getDetailData(username).observe(this) { detail ->
-//                    when (detail) {
-//                        is Resource.Loading -> {
-//                        }
-//                        is Resource.Success -> {
-//
-//                        }
-//                        is Resource.Error -> {
-//                        }
-//                    }
-//                }
-//            }
         } else {
             Log.d("Load", "twice")
             supportFragmentManager.getFragment(savedInstanceState, FRAGMENT_RESULT)

@@ -20,9 +20,8 @@ import com.app.githubmobile.home.HomeActivity
 import com.app.githubmobile.home.HomeViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 @FlowPreview
 @ExperimentalCoroutinesApi
@@ -31,7 +30,7 @@ class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel by viewModel<HomeViewModel>()
+    private val viewModel by sharedViewModel<HomeViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -75,7 +74,7 @@ class SearchFragment : Fragment() {
 
         viewModel.searchResult.observe(viewLifecycleOwner) { user ->
             lifecycleScope.launch {
-                user.collect { userFlow ->
+                user.observe(viewLifecycleOwner) { userFlow ->
                     when (userFlow) {
                         is Resource.Loading -> {
 
