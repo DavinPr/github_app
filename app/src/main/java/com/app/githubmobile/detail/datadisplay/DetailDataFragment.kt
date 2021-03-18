@@ -6,10 +6,10 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.text.SpannableStringBuilder
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -20,6 +20,7 @@ import com.app.coremodule.data.Resource
 import com.app.coremodule.domain.usecase.model.Detail
 import com.app.githubmobile.R
 import com.app.githubmobile.databinding.FragmentDetailDataBinding
+import com.app.githubmobile.detail.DetailActivity
 import com.app.githubmobile.detail.DetailViewModel
 import com.app.githubmobile.detail.userfollow.UserFollowFragment
 import com.app.githubmobile.helper.shortNumberDisplay
@@ -47,7 +48,9 @@ class DetailDataFragment : Fragment(), AppBarLayout.OnOffsetChangedListener,
 
     private lateinit var toolbar: Toolbar
     private var username: String? = null
-    private var detail: Detail? = null
+    private var _detail: Detail? = null
+    private val detail get() = _detail!!
+
     private val viewModel: DetailViewModel by sharedViewModel()
 
     private var avatarExpandSize = 0f
@@ -75,8 +78,6 @@ class DetailDataFragment : Fragment(), AppBarLayout.OnOffsetChangedListener,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        parentFragment?.tag?.let { Log.d("testDetail", it) }
-
         toolbar = binding.toolbar.root
         (activity as AppCompatActivity).apply {
             setSupportActionBar(toolbar)
@@ -88,39 +89,26 @@ class DetailDataFragment : Fragment(), AppBarLayout.OnOffsetChangedListener,
         btntnMargin = resources.getDimension(R.dimen.button_margin)
         horizontalToolbarAvatarMargin = resources.getDimension(R.dimen.default_horizontal_margin)
 
-        val bundleData = arguments?.get(dataKey)
+        val username = arguments?.getString(dataKey)
 
-        if (bundleData != null) {
-            when (bundleData) {
-                is String -> {
-                    Log.d("testInstance", "string")
-                    this.username = bundleData
-                    viewModel.getDetailData(bundleData).observe(viewLifecycleOwner) { detail ->
-                        when (detail) {
-                            is Resource.Loading -> {
-                            }
-                            is Resource.Success -> {
-                                val data = detail.data
-                                if (data != null) {
-                                    this.detail = data
-                                    if (this.detail != null) {
-                                        Log.d("testInstance2", "string")
-                                        dataBinding(this.detail!!)
-                                    }
-                                }
-                            }
-                            is Resource.Error -> {
+        if (username != null) {
+            this.username = username
+            viewModel.getDetailData(username).observe(viewLifecycleOwner) { detail ->
+                when (detail) {
+                    is Resource.Loading -> {
+                    }
+                    is Resource.Success -> {
+                        val data = detail.data
+                        if (data != null) {
+                            if (_detail == null) {
+                                _detail = data
+                                dataBinding(data)
+                            } else {
+                                dataBinding(this.detail)
                             }
                         }
                     }
-                    Log.d("testInstance3", "string")
-                }
-                is Detail -> {
-                    Log.d("testInstance", "detail")
-                    this.username = bundleData.login
-                    this.detail = bundleData
-                    if (this.detail != null) {
-                        dataBinding(this.detail!!)
+                    is Resource.Error -> {
                     }
                 }
             }
@@ -128,19 +116,8 @@ class DetailDataFragment : Fragment(), AppBarLayout.OnOffsetChangedListener,
 
         binding.appbar.addOnOffsetChangedListener(this)
         binding.toolbar.apply {
-            btnFavorite.also {
-                it.setOnCheckedChangeListener { _, isChecked ->
-                    if (detail != null) {
-                        if (isChecked) {
-                            viewModel.insertFavorite(detail!!)
-                        } else {
-                            viewModel.deleteFavorite(detail!!)
-                        }
-                    }
-                }
-            }
-            btnFavorite.setOnClickListener(this@DetailDataFragment)
             btnBack.setOnClickListener(this@DetailDataFragment)
+            btnFavorite.setOnClickListener(this@DetailDataFragment)
         }
         binding.dataContainer.apply {
             detailFollowers.setOnClickListener(this@DetailDataFragment)
@@ -148,10 +125,14 @@ class DetailDataFragment : Fragment(), AppBarLayout.OnOffsetChangedListener,
         }
     }
 
-//    override fun onResume() {
-//        super.onResume()
-//        this.tag?.let { viewModel.putDetailFragmentTag(it) }
-//    }
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        (activity as AppCompatActivity).supportFragmentManager.putFragment(
+            outState,
+            DetailActivity.FRAGMENT_RESULT,
+            this
+        )
+    }
 
     override fun onOffsetChanged(appBarLayout: AppBarLayout, verticalOffset: Int) {
         if (isCalculated.not()) {
@@ -168,6 +149,17 @@ class DetailDataFragment : Fragment(), AppBarLayout.OnOffsetChangedListener,
         val dataContainer = binding.dataContainer
         when (v?.id) {
             binding.toolbar.btnBack.id -> activity?.finish()
+
+            binding.toolbar.btnFavorite.id -> {
+                val state = !detail.isFavorite
+                if (state) {
+                    viewModel.insertFavorite(detail)
+                } else {
+                    viewModel.deleteFavorite(detail)
+                }
+                detail.isFavorite = state
+                setCheckedState(state, binding.toolbar.btnFavorite)
+            }
 
             dataContainer.detailFollowers.id,
             dataContainer.detailFollowing.id -> {
@@ -211,7 +203,7 @@ class DetailDataFragment : Fragment(), AppBarLayout.OnOffsetChangedListener,
             .into(binding.detailAvatar)
 
         binding.toolbar.btnFavorite.apply {
-            isChecked = detail.isFavorite
+            setCheckedState(detail.isFavorite, this)
         }
 
         binding.dataContainer.apply {
@@ -293,7 +285,7 @@ class DetailDataFragment : Fragment(), AppBarLayout.OnOffsetChangedListener,
                                 root.background = null
                             }
                             binding.toolbar.btnFavorite.apply {
-                                backgroundTintList = (ContextCompat.getColorStateList(
+                                imageTintList = (ContextCompat.getColorStateList(
                                     requireContext(),
                                     R.color.gray
                                 ))
@@ -310,7 +302,7 @@ class DetailDataFragment : Fragment(), AppBarLayout.OnOffsetChangedListener,
                                     ContextCompat.getDrawable(requireContext(), R.color.gray)
                             }
                             binding.toolbar.btnFavorite.apply {
-                                backgroundTintList = (ContextCompat.getColorStateList(
+                                imageTintList = (ContextCompat.getColorStateList(
                                     requireContext(),
                                     R.color.white
                                 ))
@@ -356,6 +348,26 @@ class DetailDataFragment : Fragment(), AppBarLayout.OnOffsetChangedListener,
                         translationX = 0f
                     }
                 }
+            }
+        }
+    }
+
+    private fun setCheckedState(state: Boolean, btn: ImageButton) {
+        btn.apply {
+            if (state) {
+                setImageDrawable(
+                    ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.ic_favorite
+                    )
+                )
+            } else {
+                setImageDrawable(
+                    ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.ic_favorite_border
+                    )
+                )
             }
         }
     }

@@ -19,9 +19,7 @@ class HomeViewModel(private val useCase: AppUseCase) : ViewModel() {
         .distinctUntilChanged()
         .filter { it.trim().isNotEmpty() }
         .mapLatest {
-            useCase.getSearchUser(it)
+            useCase.getSearchUser(it).asLiveData()
         }.asLiveData()
-
-    fun putFragmentTag(tag: String) = useCase.putFragmentTag(tag)
 
 }

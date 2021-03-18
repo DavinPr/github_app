@@ -18,5 +18,5 @@ data class Detail(
     val following: Int = 0,
     val name: String? = null,
     val location: String? = null,
-    val isFavorite: Boolean = false
+    var isFavorite: Boolean = false
 ) : Parcelable

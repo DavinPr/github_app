@@ -3,7 +3,6 @@ package com.app.githubmobile.detail
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.app.coremodule.data.Resource
 import com.app.githubmobile.R
 import com.app.githubmobile.databinding.ActivityDetailBinding
 import com.app.githubmobile.detail.datadisplay.DetailDataFragment
@@ -27,34 +26,24 @@ class DetailActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) {
 
+            Log.d("Load", "null")
+
             val username = intent.getStringExtra(dataKey)
 
-            if (username != null) {
-                viewModel.getDetailData(username).observe(this) { detail ->
-                    when (detail) {
-                        is Resource.Loading -> {
-                        }
-                        is Resource.Success -> {
-                            val data = detail.data
-                            val dataFragment = DetailDataFragment()
-                            val bundle = Bundle()
-                            bundle.putParcelable(DetailDataFragment.dataKey, data)
-                            dataFragment.arguments = bundle
+            val dataFragment = DetailDataFragment()
+            val bundle = Bundle()
+            bundle.putString(DetailDataFragment.dataKey, username)
+            dataFragment.arguments = bundle
 
-                            val tag = dataFragment.toString()
-                            supportFragmentManager.beginTransaction()
-                                .replace(
-                                    R.id.detail_fragment_container,
-                                    dataFragment,
-                                    tag
-                                )
-                                .commit()
-                        }
-                        is Resource.Error -> {
-                        }
-                    }
-                }
-            }
+            supportFragmentManager.beginTransaction()
+                .add(
+                    R.id.detail_fragment_container,
+                    dataFragment
+                )
+                .commit()
+        } else {
+            Log.d("Load", "twice")
+            supportFragmentManager.getFragment(savedInstanceState, FRAGMENT_RESULT)
         }
     }
 }

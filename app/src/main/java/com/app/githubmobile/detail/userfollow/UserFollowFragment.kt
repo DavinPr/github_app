@@ -10,10 +10,10 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.app.githubmobile.R
 import com.app.githubmobile.databinding.FragmentUserFollowBinding
+import com.app.githubmobile.detail.DetailActivity
 import com.app.githubmobile.detail.DetailViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class UserFollowFragment : Fragment() {
 
@@ -71,8 +71,12 @@ class UserFollowFragment : Fragment() {
         }.attach()
     }
 
-//    override fun onResume() {
-//        super.onResume()
-//        this.tag?.let { viewModel.putDetailFragmentTag(it) }
-//    }
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        (activity as AppCompatActivity).supportFragmentManager.putFragment(
+            outState,
+            DetailActivity.FRAGMENT_RESULT,
+            this
+        )
+    }
 }
