@@ -20,6 +20,7 @@ import com.app.coremodule.data.Resource
 import com.app.coremodule.domain.usecase.model.Detail
 import com.app.githubmobile.R
 import com.app.githubmobile.databinding.FragmentDetailDataBinding
+import com.app.githubmobile.detail.DetailActivity
 import com.app.githubmobile.detail.DetailViewModel
 import com.app.githubmobile.detail.userfollow.UserFollowFragment
 import com.app.githubmobile.helper.shortNumberDisplay
@@ -128,18 +129,6 @@ class DetailDataFragment : Fragment(), AppBarLayout.OnOffsetChangedListener,
 
         binding.appbar.addOnOffsetChangedListener(this)
         binding.toolbar.apply {
-            btnFavorite.also {
-                it.setOnCheckedChangeListener { _, isChecked ->
-                    if (detail != null) {
-                        if (isChecked) {
-                            viewModel.insertFavorite(detail!!)
-                        } else {
-                            viewModel.deleteFavorite(detail!!)
-                        }
-                    }
-                }
-            }
-            btnFavorite.setOnClickListener(this@DetailDataFragment)
             btnBack.setOnClickListener(this@DetailDataFragment)
         }
         binding.dataContainer.apply {
@@ -148,10 +137,14 @@ class DetailDataFragment : Fragment(), AppBarLayout.OnOffsetChangedListener,
         }
     }
 
-//    override fun onResume() {
-//        super.onResume()
-//        this.tag?.let { viewModel.putDetailFragmentTag(it) }
-//    }
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        (activity as AppCompatActivity).supportFragmentManager.putFragment(
+            outState,
+            DetailActivity.FRAGMENT_RESULT,
+            this
+        )
+    }
 
     override fun onOffsetChanged(appBarLayout: AppBarLayout, verticalOffset: Int) {
         if (isCalculated.not()) {
@@ -211,7 +204,38 @@ class DetailDataFragment : Fragment(), AppBarLayout.OnOffsetChangedListener,
             .into(binding.detailAvatar)
 
         binding.toolbar.btnFavorite.apply {
-            isChecked = detail.isFavorite
+            if (detail.isFavorite) {
+                setImageDrawable(
+                    ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.ic_favorite
+                    )
+                )
+            } else {
+                setImageDrawable(
+                    ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.ic_favorite_border
+                    )
+                )
+            }
+            setOnClickListener {
+                val state = !detail.isFavorite
+                if (state) {
+                    viewModel.insertFavorite(detail)
+                } else {
+                    viewModel.deleteFavorite(detail)
+                }
+            }
+//            setOnCheckedChangeListener(null)
+//            isChecked = detail.isFavorite
+//            setOnCheckedChangeListener { _, isChecked ->
+//                if (isChecked) {
+//                    viewModel.insertFavorite(detail)
+//                } else {
+//                    viewModel.deleteFavorite(detail)
+//                }
+//            }
         }
 
         binding.dataContainer.apply {

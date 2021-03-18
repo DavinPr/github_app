@@ -22,6 +22,4 @@ class HomeViewModel(private val useCase: AppUseCase) : ViewModel() {
             useCase.getSearchUser(it)
         }.asLiveData()
 
-    fun putFragmentTag(tag: String) = useCase.putFragmentTag(tag)
-
 }

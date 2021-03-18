@@ -64,8 +64,7 @@ class FollowingFragment : Fragment() {
             mFragmentManager.beginTransaction().apply {
                 replace(
                     R.id.detail_fragment_container,
-                    mDetailDataFragment,
-                    tag
+                    mDetailDataFragment
                 )
                 addToBackStack(null)
                 commit()
