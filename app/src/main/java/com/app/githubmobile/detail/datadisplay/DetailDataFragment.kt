@@ -130,6 +130,11 @@ class DetailDataFragment : Fragment(), AppBarLayout.OnOffsetChangedListener,
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         (activity as AppCompatActivity).supportFragmentManager.putFragment(
