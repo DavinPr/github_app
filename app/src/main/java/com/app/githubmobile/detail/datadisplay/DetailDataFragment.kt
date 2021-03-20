@@ -194,9 +194,8 @@ class DetailDataFragment : Fragment(), AppBarLayout.OnOffsetChangedListener,
         bundle.putInt(UserFollowFragment.TAB_KEY, selected)
         mUserFollowFragment.arguments = bundle
 
-        val mFragmentManager = activity?.supportFragmentManager
         val tag = UserFollowFragment::class.java.simpleName
-        mFragmentManager?.beginTransaction()?.apply {
+        parentFragmentManager.beginTransaction().apply {
             replace(
                 R.id.detail_fragment_container,
                 mUserFollowFragment,

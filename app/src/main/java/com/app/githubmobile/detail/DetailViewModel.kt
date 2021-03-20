@@ -15,8 +15,4 @@ class DetailViewModel(private val useCase: AppUseCase) :
 
     fun insertFavorite(detail: Detail) = useCase.insertFavorite(detail)
     fun deleteFavorite(detail: Detail) = useCase.deleteFavorite(detail)
-//    fun isFavorite(username: String) = useCase.isFavorite(username).asLiveData()
-//
-//    fun putDetailFragmentTag(tag: String) = useCase.putDetailFragmentTag(tag)
-//    fun getDetailFragmentTag(): String? = useCase.getFragmentTag()
 }

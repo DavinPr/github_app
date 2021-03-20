@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -37,19 +38,42 @@ class FollowersFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val username = arguments?.getString(ARG_USERNAME)
         val userAdapter = UserListAdapter()
-        if (username != null) {
+        fun loadData() = if (username != null) {
             viewModel.getUserFollower(username).observe(viewLifecycleOwner) { users ->
                 when (users) {
                     is Resource.Loading -> {
+                        binding.rvFollowers.visibility = View.GONE
+                        binding.followersError.root.visibility = View.GONE
+                        binding.followersLoading.visibility = View.VISIBLE
                     }
                     is Resource.Success -> {
+                        binding.followersLoading.visibility = View.GONE
                         val data = users.data
-                        if (data != null) userAdapter.setData(data)
+                        if (data.isNullOrEmpty()) {
+                            binding.followersEmpty.root.visibility = View.VISIBLE
+                        } else {
+                            binding.followersEmpty.root.visibility = View.GONE
+                            binding.rvFollowers.visibility = View.VISIBLE
+                            userAdapter.setData(data)
+                        }
                     }
                     is Resource.Error -> {
+                        binding.followersError.root.visibility = View.VISIBLE
+                        binding.followersLoading.visibility = View.GONE
                     }
                 }
             }
+        } else {
+            Toast.makeText(
+                requireContext(),
+                resources.getString(R.string.data_null),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
+        loadData()
+        binding.followersError.btnRefresh.setOnClickListener {
+            loadData()
         }
 
         userAdapter.onClickItem = {

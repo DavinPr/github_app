@@ -21,4 +21,7 @@
     <string name="open_in_github">Open in Github</string>
     <string name="tab_followers">Followers</string>
     <string name="tab_following">Following</string>
+    <string name="error_text">Something went wrong</string>
+    <string name="data_null">Username is null</string>
+    <string name="no_data">No Data</string>
 </resources>
