@@ -22,4 +22,5 @@ class HomeViewModel(private val useCase: AppUseCase) : ViewModel() {
             useCase.getSearchUser(it).asLiveData()
         }.asLiveData()
 
+    fun getAllRecent() = useCase.getAllRecent().asLiveData()
 }

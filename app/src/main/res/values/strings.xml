@@ -24,4 +24,8 @@
     <string name="error_text">Something went wrong</string>
     <string name="data_null">Username is null</string>
     <string name="no_data">No Data</string>
+    <string name="data_empty">No data found</string>
+    <string name="search_text">Searching for \"%1$s\"</string>
+    <string name="app_tag">Find people in github</string>
+    <string name="recent_search">Recent search</string>
 </resources>

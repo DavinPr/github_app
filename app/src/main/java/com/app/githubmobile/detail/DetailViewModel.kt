@@ -15,4 +15,6 @@ class DetailViewModel(private val useCase: AppUseCase) :
 
     fun insertFavorite(detail: Detail) = useCase.insertFavorite(detail)
     fun deleteFavorite(detail: Detail) = useCase.deleteFavorite(detail)
+
+    fun insertRecent(detail: Detail) = useCase.insertRecent(detail)
 }

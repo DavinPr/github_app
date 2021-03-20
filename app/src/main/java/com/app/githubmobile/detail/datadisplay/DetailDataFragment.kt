@@ -2,6 +2,7 @@ package com.app.githubmobile.detail.datadisplay
 
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -11,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
@@ -91,13 +93,14 @@ class DetailDataFragment : Fragment(), AppBarLayout.OnOffsetChangedListener,
 
         val username = arguments?.getString(dataKey)
 
-        if (username != null) {
+        fun loadData() = if (username != null) {
             this.username = username
             viewModel.getDetailData(username).observe(viewLifecycleOwner) { detail ->
                 when (detail) {
                     is Resource.Loading -> {
                         binding.detailLoading.visibility = View.VISIBLE
                         binding.coordinatorLayout.visibility = View.GONE
+                        binding.detailError.visibility = View.GONE
                     }
                     is Resource.Success -> {
                         binding.coordinatorLayout.visibility = View.VISIBLE
@@ -110,13 +113,30 @@ class DetailDataFragment : Fragment(), AppBarLayout.OnOffsetChangedListener,
                             } else {
                                 dataBinding(this.detail)
                             }
+                            viewModel.insertRecent(data)
                         }
                     }
                     is Resource.Error -> {
                         binding.detailLoading.visibility = View.GONE
+                        binding.detailError.visibility = View.VISIBLE
                     }
                 }
             }
+        } else {
+            Toast.makeText(
+                requireContext(),
+                resources.getString(R.string.data_null),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
+        loadData()
+
+        binding.btnBack2.setOnClickListener {
+            activity?.finish()
+        }
+        binding.layoutError.btnRefresh.setOnClickListener {
+            loadData()
         }
 
         binding.appbar.addOnOffsetChangedListener(this)
@@ -286,35 +306,56 @@ class DetailDataFragment : Fragment(), AppBarLayout.OnOffsetChangedListener,
                             binding.detailAvatar.translationX = 0F
                             binding.detailAvatar.borderColor =
                                 ContextCompat.getColor(requireContext(), R.color.gray)
-                            (activity as AppCompatActivity).window.apply {
-                                statusBarColor =
-                                    ContextCompat.getColor(requireContext(), R.color.white)
-                            }
                             binding.toolbar.apply {
                                 root.background = null
                             }
-                            binding.toolbar.btnFavorite.apply {
-                                imageTintList = (ContextCompat.getColorStateList(
+                            binding.toolbar.apply {
+                                btnFavorite.imageTintList = (ContextCompat.getColorStateList(
                                     requireContext(),
                                     R.color.gray
                                 ))
+                                btnBack.imageTintList = (ContextCompat.getColorStateList(
+                                    requireContext(),
+                                    R.color.gray
+                                ))
+                            }
+                            (activity as AppCompatActivity).window.apply {
+                                if (Build.VERSION.SDK_INT >= 30) {
+
+                                } else {
+                                    @Suppress("DEPRECATION")
+                                    decorView.systemUiVisibility =
+                                        decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                                }
+                                statusBarColor = ContextCompat.getColor(context, R.color.white)
                             }
                         }
                         TO_COLLAPSED -> {
                             isCollapsed = true
                             binding.detailAvatar.borderColor =
                                 ContextCompat.getColor(requireContext(), R.color.white)
-                            (activity as AppCompatActivity).window.statusBarColor =
-                                ContextCompat.getColor(requireContext(), R.color.gray)
                             binding.toolbar.apply {
                                 root.background =
                                     ContextCompat.getDrawable(requireContext(), R.color.gray)
                             }
-                            binding.toolbar.btnFavorite.apply {
-                                imageTintList = (ContextCompat.getColorStateList(
+                            binding.toolbar.apply {
+                                btnFavorite.imageTintList = (ContextCompat.getColorStateList(
                                     requireContext(),
                                     R.color.white
                                 ))
+                                btnBack.imageTintList = (ContextCompat.getColorStateList(
+                                    requireContext(),
+                                    R.color.white
+                                ))
+                            }
+                            (activity as AppCompatActivity).window.apply {
+                                if (Build.VERSION.SDK_INT >= 30) {
+
+                                } else {
+                                    @Suppress("DEPRECATION")
+                                    clearFlags(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR)
+                                }
+                                statusBarColor = ContextCompat.getColor(context, R.color.gray)
                             }
                         }
                     }

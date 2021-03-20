@@ -15,6 +15,11 @@
         <item name="android:windowLightStatusBar">true</item>
     </style>
 
+    <style name="Theme.GithubMobile.Detail.Collapsed" parent="Theme.GithubMobile">
+        <item name="android:statusBarColor" tools:targetApi="l">@color/gray</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
     <style name="Theme.GithubMobile.Translucent.StatusBar" parent="Theme.GithubMobile">
         <item name="android:windowTranslucentStatus">true</item>
     </style>

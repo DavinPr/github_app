@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical">
 
-    <com.app.githubmobile.customview.CircularImageButton
+    <ImageButton
         android:id="@+id/btn_back"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:background="@null"
-        app:cib_icon="@drawable/ic_back"
-        app:cib_iconTint="@color/white" />
+        android:backgroundTint="@android:color/transparent"
+        android:src="@drawable/ic_back"
+        tools:ignore="ContentDescription" />
 
     <ImageButton
         android:id="@+id/btn_favorite"

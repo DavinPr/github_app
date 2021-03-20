@@ -65,10 +65,34 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="?attr/actionBarSize"
-        android:elevation="10dp"
+        android:visibility="gone"
         app:shimmer_auto_start="true">
 
         <include layout="@layout/detail_placeholder" />
     </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <LinearLayout
+        android:id="@+id/detail_error"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageButton
+            android:id="@+id/btn_back2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:backgroundTint="@android:color/transparent"
+            android:src="@drawable/ic_back"
+            tools:ignore="ContentDescription" />
+
+        <include
+            android:id="@+id/layout_error"
+            layout="@layout/layout_error"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
 
 </FrameLayout>

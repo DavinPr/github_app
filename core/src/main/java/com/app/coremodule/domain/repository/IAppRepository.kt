@@ -14,11 +14,7 @@ interface IAppRepository {
     fun getAllFavorite(): Flow<Resource<List<User>>>
     fun insertFavorite(detail: Detail)
     fun deleteFavorite(detail: Detail)
-    fun isFavorite(username: String): Flow<Boolean>
 
-    fun putFragmentTag(tag: String)
-    fun getFragmentTag(): String?
-
-    fun putDetailFragmentTag(tag: String)
-    fun getDetailFragmentTag(): String?
+    fun getAllRecent(): Flow<List<User>>
+    fun insertRecent(detail: Detail)
 }

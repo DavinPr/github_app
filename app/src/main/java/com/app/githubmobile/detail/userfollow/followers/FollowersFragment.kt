@@ -50,6 +50,11 @@ class FollowersFragment : Fragment() {
                         binding.followersLoading.visibility = View.GONE
                         val data = users.data
                         if (data.isNullOrEmpty()) {
+                            Toast.makeText(
+                                requireContext(),
+                                resources.getString(R.string.data_empty),
+                                Toast.LENGTH_SHORT
+                            ).show()
                             binding.followersEmpty.root.visibility = View.VISIBLE
                         } else {
                             binding.followersEmpty.root.visibility = View.GONE

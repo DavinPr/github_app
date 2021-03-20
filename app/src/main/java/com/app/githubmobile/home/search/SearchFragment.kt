@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.coremodule.data.Resource
+import com.app.githubmobile.R
 import com.app.githubmobile.adapter.UserListAdapter
 import com.app.githubmobile.databinding.FragmentSearchBinding
 import com.app.githubmobile.detail.DetailActivity
@@ -54,8 +55,14 @@ class SearchFragment : Fragment() {
                     lifecycleScope.launch {
                         if (newText != null) {
                             if (newText.trim().isNotEmpty()) {
+                                binding.searchError.root.visibility = View.GONE
                                 binding.rvUsers.visibility = View.GONE
-                                val searchText = "Searching for \"$newText\""
+                                val searchText = String.format(
+                                    resources.getString(
+                                        R.string.search_text,
+                                        newText
+                                    )
+                                )
                                 binding.tvSearch.apply {
                                     text = searchText
                                     visibility = View.VISIBLE
@@ -67,7 +74,7 @@ class SearchFragment : Fragment() {
                             }
                         }
                     }
-                    return false
+                    return true
                 }
             })
         }
@@ -77,19 +84,28 @@ class SearchFragment : Fragment() {
                 user.observe(viewLifecycleOwner) { userFlow ->
                     when (userFlow) {
                         is Resource.Loading -> {
-
+                            binding.searchError.root.visibility = View.GONE
+                            binding.searchEmpty.root.visibility = View.GONE
+                            binding.rvUsers.visibility = View.GONE
                         }
                         is Resource.Success -> {
                             binding.tvSearch.visibility = View.GONE
                             val data = userFlow.data
-                            if (data != null) {
+                            if (data.isNullOrEmpty()) {
+                                binding.searchEmpty.root.visibility = View.VISIBLE
+                            } else {
                                 binding.rvUsers.visibility = View.VISIBLE
                                 userAdapter.setData(data)
                             }
                         }
                         is Resource.Error -> {
+                            Toast.makeText(
+                                requireContext(),
+                                resources.getString(R.string.error_text),
+                                Toast.LENGTH_SHORT
+                            ).show()
                             binding.tvSearch.visibility = View.GONE
-                            Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
+                            binding.searchError.root.visibility = View.VISIBLE
                         }
                     }
                 }

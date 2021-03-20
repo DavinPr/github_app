@@ -94,7 +94,7 @@ class AppRepository(
         flow {
             emit(Resource.Loading())
             val data = localDataSource.getAllFavorite().map {
-                DataMapper.mapListEntityToDomain(it)
+                DataMapper.mapFavoriteListEntityToDomain(it)
             }
             emitAll(data.map {
                 Resource.Success(it)
@@ -102,38 +102,31 @@ class AppRepository(
         }
 
     override fun insertFavorite(detail: Detail) {
-        val favorite = DataMapper.mapDomainToEntity(detail)
+        val favorite = DataMapper.mapDomainToFavoriteEntity(detail)
         appExecutors.diskIO().execute {
             localDataSource.insertFavorite(favorite)
         }
     }
 
     override fun deleteFavorite(detail: Detail) {
-        val favorite = DataMapper.mapDomainToEntity(detail)
+        val favorite = DataMapper.mapDomainToFavoriteEntity(detail)
         appExecutors.diskIO().execute {
             localDataSource.deleteFavorite(favorite)
         }
     }
 
-    override fun isFavorite(username: String): Flow<Boolean> =
+    override fun getAllRecent(): Flow<List<User>> =
         flow {
-            emitAll(localDataSource.isFavorite(username))
+            val data = localDataSource.getAllRecent().map {
+                DataMapper.mapRecentEntityToDomain(it)
+            }
+            emitAll(data)
         }.flowOn(Dispatchers.IO)
 
-    override fun putFragmentTag(tag: String) {
+    override fun insertRecent(detail: Detail) {
+        val recent = DataMapper.mapDomainToRecentEntity(detail)
         appExecutors.diskIO().execute {
-            localDataSource.putFragmentTag(tag)
+            localDataSource.insertRecent(recent)
         }
     }
-
-    override fun getFragmentTag(): String? = localDataSource.getFragmentTag()
-
-    override fun putDetailFragmentTag(tag: String) {
-        appExecutors.diskIO().execute {
-            localDataSource.putDetailFragmentTag(tag)
-        }
-    }
-
-    override fun getDetailFragmentTag(): String? = localDataSource.getDetailFragmentTag()
-
 }

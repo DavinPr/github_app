@@ -62,49 +62,31 @@
         android:padding="8dp"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="@+id/cardView"
         app:layout_constraintStart_toStartOf="@+id/cardView"
         app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
-    <com.facebook.shimmer.ShimmerFrameLayout
-        android:id="@+id/user_progress_bar"
+    <include
+        android:id="@+id/search_error"
+        layout="@layout/layout_search_error"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView"
-        app:shimmer_auto_start="true">
+        app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <include layout="@layout/user_placeholder" />
-
-                <include layout="@layout/user_placeholder" />
-
-                <include layout="@layout/user_placeholder" />
-
-                <include layout="@layout/user_placeholder" />
-
-                <include layout="@layout/user_placeholder" />
-
-                <include layout="@layout/user_placeholder" />
-
-                <include layout="@layout/user_placeholder" />
-
-                <include layout="@layout/user_placeholder" />
-            </LinearLayout>
-        </ScrollView>
-    </com.facebook.shimmer.ShimmerFrameLayout>
-
+    <include
+        android:id="@+id/search_empty"
+        layout="@layout/layout_empty"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

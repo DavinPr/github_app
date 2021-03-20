@@ -1,10 +1,13 @@
 package com.app.coremodule.utils
 
 import com.app.coremodule.data.local.entity.FavoriteEntity
+import com.app.coremodule.data.local.entity.RecentEntity
 import com.app.coremodule.data.remote.response.DetailResponse
 import com.app.coremodule.data.remote.response.UserItem
 import com.app.coremodule.domain.usecase.model.Detail
 import com.app.coremodule.domain.usecase.model.User
+import java.util.*
+import kotlin.collections.ArrayList
 
 object DataMapper {
 
@@ -42,7 +45,7 @@ object DataMapper {
             )
         }
 
-    fun mapListEntityToDomain(favoriteEntity: List<FavoriteEntity>): List<User> {
+    fun mapFavoriteListEntityToDomain(favoriteEntity: List<FavoriteEntity>): List<User> {
         val list = ArrayList<User>()
         favoriteEntity.map {
             val user = User(
@@ -78,7 +81,7 @@ object DataMapper {
         }
     }
 
-    fun mapDomainToEntity(detail: Detail): FavoriteEntity {
+    fun mapDomainToFavoriteEntity(detail: Detail): FavoriteEntity {
         return FavoriteEntity(
             bio = detail.bio,
             login = detail.login ?: "",
@@ -93,6 +96,28 @@ object DataMapper {
             following = detail.following,
             name = detail.name,
             location = detail.location
+        )
+    }
+
+    fun mapRecentEntityToDomain(recentEntity: List<RecentEntity>): List<User> {
+        val list = ArrayList<User>()
+        recentEntity.map {
+            val user = User(
+                avatar = it.avatar,
+                username = it.login,
+                name = it.name
+            )
+            list.add(user)
+        }
+        return list
+    }
+
+    fun mapDomainToRecentEntity(detail: Detail): RecentEntity {
+        return RecentEntity(
+            login = detail.login ?: "",
+            name = detail.name,
+            avatar = detail.avatar,
+            created_at = Calendar.getInstance().time
         )
     }
 }
