@@ -5,6 +5,5 @@
 
     <dimen name="default_horizontal_margin">8dp</dimen>
 
-    <dimen name="default_button_size">30dp</dimen>
     <dimen name="button_margin">13dp</dimen>
 </resources>

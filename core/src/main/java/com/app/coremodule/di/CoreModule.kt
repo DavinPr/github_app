@@ -1,6 +1,6 @@
 package com.app.coremodule.di
 
-import android.content.Context
+import androidx.preference.PreferenceManager
 import androidx.room.Room
 import com.app.coremodule.data.AppRepository
 import com.app.coremodule.data.local.LocalDataSource
@@ -49,7 +49,7 @@ val databaseModule = module {
     }
 
     single<ISharedPref> {
-        val pref = androidContext().getSharedPreferences("User_github_pref", Context.MODE_PRIVATE)
+        val pref = PreferenceManager.getDefaultSharedPreferences(androidContext())
         SharedPref(pref)
     }
 }

@@ -12,7 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GithubMobile">
         <activity
-            android:name=".SplashScreenActivity"
+            android:name=".ui.setting.SettingsActivity"
+            android:label="@string/title_activity_settings" />
+        <activity
+            android:name=".ui.SplashScreenActivity"
             android:noHistory="true"
             android:theme="@style/Theme.GithubMobile.Translucent.StatusBar">
             <intent-filter>
@@ -21,9 +24,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".favorite.FavoriteActivity" />
-        <activity android:name=".detail.DetailActivity" />
-        <activity android:name=".home.HomeActivity" />
+        <activity
+            android:name=".ui.favorite.FavoriteActivity"
+            />
+        <activity
+            android:name=".ui.detail.DetailActivity"
+            />
+        <activity
+            android:name=".ui.home.HomeActivity"
+            />
     </application>
 
 </manifest>

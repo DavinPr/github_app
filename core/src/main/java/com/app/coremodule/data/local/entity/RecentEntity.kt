@@ -11,12 +11,6 @@ data class RecentEntity(
     @ColumnInfo(name = "username")
     val login: String,
 
-    @ColumnInfo(name = "avatar")
-    val avatar: String? = null,
-
-    @ColumnInfo(name = "name")
-    val name: String? = null,
-
     @ColumnInfo(name = "created_at")
     var created_at: Date? = null
 )

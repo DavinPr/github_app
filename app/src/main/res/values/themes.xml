@@ -2,22 +2,17 @@
     <!-- Base application theme. -->
     <style name="Theme.GithubMobile" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryVariant">@color/light_gray</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorSecondary">@color/black</item>
+        <item name="colorSecondaryVariant">@color/gray</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">@color/white</item>
         <!-- Customize your theme here. -->
         <item name="android:windowLightStatusBar">true</item>
-    </style>
-
-    <style name="Theme.GithubMobile.Detail.Collapsed" parent="Theme.GithubMobile">
-        <item name="android:statusBarColor" tools:targetApi="l">@color/gray</item>
-        <item name="android:windowLightStatusBar">false</item>
     </style>
 
     <style name="Theme.GithubMobile.Translucent.StatusBar" parent="Theme.GithubMobile">

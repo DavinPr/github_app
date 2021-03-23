@@ -1,10 +1,10 @@
 package com.app.githubmobile.helper
 
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
+import android.app.Activity
+import android.content.res.Configuration
 import java.math.RoundingMode
 import java.text.DecimalFormat
+import java.util.*
 import kotlin.math.ln
 import kotlin.math.pow
 
@@ -21,14 +21,10 @@ fun Int.shortNumberDisplay(): String {
     }
 }
 
-fun <T> LiveData<T>.observeOnce(owner: LifecycleOwner, reactToChange: (T) -> Unit): Observer<T> {
-    val wrappedObserver = object : Observer<T> {
-        override fun onChanged(data: T) {
-            reactToChange(data)
-            removeObserver(this)
-        }
-    }
-
-    observe(owner, wrappedObserver)
-    return wrappedObserver
+@Suppress("DEPRECATION")
+fun setLocale(activity: Activity, languageCode: String) {
+    val locale = Locale(languageCode)
+    Locale.setDefault(locale)
+    val config = Configuration()
+    activity.resources.updateConfiguration(config, activity.resources.displayMetrics)
 }

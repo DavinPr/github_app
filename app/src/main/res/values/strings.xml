@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Github Mobile</string>
+    <string name="app_name" translatable="false">Github Mobile</string>
     <string name="my_name">Aditya Davin Pradana</string>
     <string name="my_username">DavinPr</string>
     <string name="followers">followers</string>
@@ -8,8 +8,7 @@
     <string name="location">Location</string>
     <string name="repositories">Repositories</string>
     <string name="favorite">Favorite</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <string name="search">Search</string>
     <string name="search_on_github">Search on Github</string>
     <string name="no_name">No Name</string>
@@ -22,10 +21,14 @@
     <string name="tab_followers">Followers</string>
     <string name="tab_following">Following</string>
     <string name="error_text">Something went wrong</string>
-    <string name="data_null">Username is null</string>
-    <string name="no_data">No Data</string>
     <string name="data_empty">No data found</string>
     <string name="search_text">Searching for \"%1$s\"</string>
     <string name="app_tag">Find people in github</string>
     <string name="recent_search">Recent search</string>
+    <string name="recent_empty_message">It looks like you haven\'t seen anyone yet</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <string name="general">General</string>
+    <string name="language">Language</string>
+    <string name="language_key" translatable="false">language</string>
 </resources>

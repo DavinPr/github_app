@@ -15,4 +15,6 @@ class LocalDataSource(private val dao: AppDao, private val sharedPref: ISharedPr
     fun getAllRecent(): Flow<List<RecentEntity>> = dao.getAllRecent()
     fun insertRecent(recentEntity: RecentEntity) = dao.insertRecent(recentEntity)
     fun deleteRecent() = dao.deleteRecent()
+
+    fun getLocale() = sharedPref.getLocale()
 }

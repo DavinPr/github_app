@@ -6,6 +6,7 @@ import com.app.coremodule.data.remote.network.ApiResponse
 import com.app.coremodule.data.remote.response.DetailResponse
 import com.app.coremodule.domain.repository.IAppRepository
 import com.app.coremodule.domain.usecase.model.Detail
+import com.app.coremodule.domain.usecase.model.Recent
 import com.app.coremodule.domain.usecase.model.User
 import com.app.coremodule.utils.AppExecutors
 import com.app.coremodule.utils.DataMapper
@@ -115,7 +116,7 @@ class AppRepository(
         }
     }
 
-    override fun getAllRecent(): Flow<List<User>> =
+    override fun getAllRecent(): Flow<List<Recent>> =
         flow {
             val data = localDataSource.getAllRecent().map {
                 DataMapper.mapRecentEntityToDomain(it)
@@ -127,6 +128,11 @@ class AppRepository(
         val recent = DataMapper.mapDomainToRecentEntity(detail)
         appExecutors.diskIO().execute {
             localDataSource.insertRecent(recent)
+            localDataSource.deleteRecent()
         }
+    }
+
+    override fun getLocale(): String? {
+        return localDataSource.getLocale()
     }
 }

@@ -5,6 +5,7 @@ import com.app.coremodule.data.local.entity.RecentEntity
 import com.app.coremodule.data.remote.response.DetailResponse
 import com.app.coremodule.data.remote.response.UserItem
 import com.app.coremodule.domain.usecase.model.Detail
+import com.app.coremodule.domain.usecase.model.Recent
 import com.app.coremodule.domain.usecase.model.User
 import java.util.*
 import kotlin.collections.ArrayList
@@ -99,15 +100,13 @@ object DataMapper {
         )
     }
 
-    fun mapRecentEntityToDomain(recentEntity: List<RecentEntity>): List<User> {
-        val list = ArrayList<User>()
+    fun mapRecentEntityToDomain(recentEntity: List<RecentEntity>): List<Recent> {
+        val list = ArrayList<Recent>()
         recentEntity.map {
-            val user = User(
-                avatar = it.avatar,
-                username = it.login,
-                name = it.name
+            val recent = Recent(
+                username = it.login
             )
-            list.add(user)
+            list.add(recent)
         }
         return list
     }
@@ -115,8 +114,6 @@ object DataMapper {
     fun mapDomainToRecentEntity(detail: Detail): RecentEntity {
         return RecentEntity(
             login = detail.login ?: "",
-            name = detail.name,
-            avatar = detail.avatar,
             created_at = Calendar.getInstance().time
         )
     }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".detail.datadisplay.DetailDataFragment">
+    tools:context=".ui.detail.datadisplay.DetailDataFragment">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinator_layout"
@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="220dp"
             android:background="@null"
-            app:elevation="0dp">
+            android:clipChildren="false">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/collapsing_toolbar"

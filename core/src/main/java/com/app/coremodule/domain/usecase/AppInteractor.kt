@@ -3,6 +3,7 @@ package com.app.coremodule.domain.usecase
 import com.app.coremodule.data.AppRepository
 import com.app.coremodule.data.Resource
 import com.app.coremodule.domain.usecase.model.Detail
+import com.app.coremodule.domain.usecase.model.Recent
 import com.app.coremodule.domain.usecase.model.User
 import kotlinx.coroutines.flow.Flow
 
@@ -25,9 +26,10 @@ class AppInteractor(private val repository: AppRepository) : AppUseCase {
 
     override fun deleteFavorite(detail: Detail) = repository.deleteFavorite(detail)
 
-    override fun getAllRecent(): Flow<List<User>> = repository.getAllRecent()
+    override fun getAllRecent(): Flow<List<Recent>> = repository.getAllRecent()
 
     override fun insertRecent(detail: Detail) = repository.insertRecent(detail)
 
+    override fun getLocale(): String? = repository.getLocale()
 
 }

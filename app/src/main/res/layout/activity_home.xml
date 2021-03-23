@@ -4,6 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/home_container"
-    tools:context=".home.HomeActivity">
+    tools:context=".ui.home.HomeActivity">
 
 </androidx.constraintlayout.widget.ConstraintLayout>

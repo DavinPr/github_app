@@ -19,7 +19,7 @@
         style="@style/Theme.GithubMobile.Text.Regular.14"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:drawablePadding="8dp"
         android:gravity="center_vertical"
         android:text="@string/company"
@@ -30,7 +30,7 @@
         style="@style/Theme.GithubMobile.Text.Medium.14"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:drawablePadding="8dp"
         android:gravity="center_vertical"
         android:text="@string/blog"
@@ -41,7 +41,7 @@
         style="@style/Theme.GithubMobile.Text.Regular.14"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:drawablePadding="8dp"
         android:gravity="center_vertical"
         android:text="@string/location"
@@ -49,16 +49,15 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_open_in_github"
+        style="@style/Theme.GithubMobile.Text.Medium.14"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:background="@drawable/bg_open_github_btn"
-        app:backgroundTint="@null"
-        style="@style/Theme.GithubMobile.Text.Medium.14"
         android:elevation="4dp"
-        android:textColor="@color/white"
         android:text="@string/open_in_github"
         android:textAllCaps="false"
-        android:layout_marginTop="16dp"
-        />
+        android:textColor="@color/white"
+        app:backgroundTint="@null" />
 
 </LinearLayout>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="my_name">Aditya Davin Pradana</string>
+    <string name="my_username">DavinPr</string>
+    <string name="followers">pengikut</string>
+    <string name="following">diikuti</string>
+    <string name="company">Instansi</string>
+    <string name="location">Lokasi</string>
+    <string name="repositories">Repository</string>
+    <string name="favorite">Disukai</string>
+
+    <string name="search">Pencarian</string>
+    <string name="search_on_github">Cari di Github</string>
+    <string name="no_name">Tidak ada nama</string>
+    <string name="n_a">N/A</string>
+    <string name="starred">Ditandai</string>
+    <string name="bio">Bio</string>
+    <string name="blog">Blog</string>
+    <string name="gist">Gists</string>
+    <string name="open_in_github">Buka di Github</string>
+    <string name="tab_followers">Pengikut</string>
+    <string name="tab_following">Diikuti</string>
+    <string name="error_text">Terjadi kesalahan</string>
+    <string name="data_empty">Data tidak ditemukan</string>
+    <string name="search_text">Mencari \"%1$s\"</string>
+    <string name="app_tag">Cari orang di github</string>
+    <string name="recent_search">Pencarian terbaru</string>
+    <string name="recent_empty_message">Sepertinya anda belum melihat siapapun</string>
+    <string name="title_activity_settings">Pengaturan</string>
+
+
+    <string name="general">Umum</string>
+    <string name="language">Bahasa</string>
+
+</resources>

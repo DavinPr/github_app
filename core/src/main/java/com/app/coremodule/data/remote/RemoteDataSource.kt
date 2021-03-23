@@ -29,7 +29,7 @@ class RemoteDataSource(private val apiService: ApiService) {
     suspend fun getDetailUser(username: String): Flow<ApiResponse<DetailResponse>> =
         flow {
             val data = apiService.getDetailUser(username)
-            if (data.login == null) {
+            if (data.id == 0) {
                 emit(ApiResponse.Empty)
             } else {
                 emit(ApiResponse.Success(data))
