@@ -63,12 +63,12 @@ class DashboardFragment : Fragment(), View.OnClickListener {
         val recentAdapter = RecentListAdapter()
         viewModel.getAllRecent().observe(viewLifecycleOwner) {
             if (it.isNullOrEmpty()) {
-                binding.recentLayout.apply {
+                binding.apply {
                     rvRecent.visibility = View.GONE
                     recentEmpty.root.visibility = View.VISIBLE
                 }
             } else {
-                binding.recentLayout.apply {
+                binding.apply {
                     rvRecent.visibility = View.VISIBLE
                     recentEmpty.root.visibility = View.GONE
                 }
@@ -82,7 +82,7 @@ class DashboardFragment : Fragment(), View.OnClickListener {
             startActivity(intent)
         }
 
-        binding.recentLayout.rvRecent.apply {
+        binding.rvRecent.apply {
             layoutManager = LinearLayoutManager(requireContext())
             hasFixedSize()
             adapter = recentAdapter
@@ -91,6 +91,7 @@ class DashboardFragment : Fragment(), View.OnClickListener {
             )
         }
 
+        binding.recentEmpty.btnSearch.setOnClickListener(this)
         binding.btnFavorite.setOnClickListener(this)
         binding.btnSetting.setOnClickListener(this)
         binding.search.setOnClickListener(this)
@@ -118,7 +119,7 @@ class DashboardFragment : Fragment(), View.OnClickListener {
                 val intent = Intent(activity, FavoriteActivity::class.java)
                 startActivity(intent)
             }
-            binding.search.id -> {
+            binding.search.id, binding.recentEmpty.btnSearch.id -> {
                 val mSearchFragment = SearchFragment()
                 val mFragmentManager = activity?.supportFragmentManager
                 val tag = SearchFragment::class.java.simpleName

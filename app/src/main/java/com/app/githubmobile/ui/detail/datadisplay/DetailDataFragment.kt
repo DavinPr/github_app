@@ -26,6 +26,7 @@ import com.app.githubmobile.ui.detail.userfollow.UserFollowFragment
 import com.app.githubmobile.helper.shortNumberDisplay
 import com.bumptech.glide.Glide
 import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import kotlin.math.abs
 import kotlin.math.roundToInt
@@ -175,8 +176,10 @@ class DetailDataFragment : Fragment(), AppBarLayout.OnOffsetChangedListener,
             binding.toolbar.btnFavorite.id -> {
                 val state = !detail.isFavorite
                 if (state) {
+                    Snackbar.make(binding.root, R.string.inserted_data, Snackbar.LENGTH_SHORT).show()
                     viewModel.insertFavorite(detail)
                 } else {
+                    Snackbar.make(binding.root, R.string.delete_data, Snackbar.LENGTH_SHORT).show()
                     viewModel.deleteFavorite(detail)
                 }
                 detail.isFavorite = state

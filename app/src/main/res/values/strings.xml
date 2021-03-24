@@ -31,4 +31,6 @@
     <string name="general">General</string>
     <string name="language">Language</string>
     <string name="language_key" translatable="false">language</string>
+    <string name="inserted_data">Insert user into favorite</string>
+    <string name="delete_data">Delete user from favorite</string>
 </resources>

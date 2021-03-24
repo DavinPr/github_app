@@ -24,15 +24,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.favorite.FavoriteActivity"
-            />
-        <activity
-            android:name=".ui.detail.DetailActivity"
-            />
-        <activity
-            android:name=".ui.home.HomeActivity"
-            />
+        <activity android:name=".ui.favorite.FavoriteActivity" />
+        <activity android:name=".ui.detail.DetailActivity" />
+        <activity android:name=".ui.home.HomeActivity" />
     </application>
 
 </manifest>

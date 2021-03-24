@@ -31,5 +31,7 @@
 
     <string name="general">Umum</string>
     <string name="language">Bahasa</string>
+    <string name="inserted_data">Menambah user ke favorite</string>
+    <string name="delete_data">Menghapus user dari favorite</string>
 
 </resources>

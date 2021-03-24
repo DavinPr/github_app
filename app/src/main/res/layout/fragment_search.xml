@@ -52,20 +52,30 @@
         app:layout_constraintTop_toBottomOf="@+id/cardView"
         tools:listitem="@layout/user_item" />
 
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:visibility="gone"
+        app:indicatorColor="@color/gray"
+        app:layout_constraintTop_toBottomOf="@+id/cardView"
+        app:trackColor="@color/light_gray" />
+
     <TextView
         android:id="@+id/tv_search"
         style="@style/Theme.GithubMobile.Text.Medium.14"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textStyle="italic"
-        android:textColor="@color/text_gray"
         android:padding="8dp"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
+        android:textColor="@color/text_gray"
+        android:textStyle="italic"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="@+id/cardView"
         app:layout_constraintStart_toStartOf="@+id/cardView"
-        app:layout_constraintTop_toBottomOf="@+id/cardView" />
+        app:layout_constraintTop_toBottomOf="@+id/progress_bar" />
 
     <include
         android:id="@+id/search_error"

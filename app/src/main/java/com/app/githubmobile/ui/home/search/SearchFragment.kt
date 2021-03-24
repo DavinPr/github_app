@@ -63,6 +63,7 @@ class SearchFragment : Fragment() {
                                         newText
                                     )
                                 )
+                                binding.progressBar.visibility = View.VISIBLE
                                 binding.tvSearch.apply {
                                     text = searchText
                                     visibility = View.VISIBLE
@@ -84,12 +85,14 @@ class SearchFragment : Fragment() {
                 user.observe(viewLifecycleOwner) { userFlow ->
                     when (userFlow) {
                         is Resource.Loading -> {
+                            binding.progressBar.visibility = View.VISIBLE
                             binding.searchError.root.visibility = View.GONE
                             binding.searchEmpty.root.visibility = View.GONE
                             binding.rvUsers.visibility = View.GONE
                         }
                         is Resource.Success -> {
                             binding.tvSearch.visibility = View.GONE
+                            binding.progressBar.visibility = View.GONE
                             val data = userFlow.data
                             if (data.isNullOrEmpty()) {
                                 binding.searchEmpty.root.visibility = View.VISIBLE
@@ -104,6 +107,7 @@ class SearchFragment : Fragment() {
                                 resources.getString(R.string.error_text),
                                 Toast.LENGTH_SHORT
                             ).show()
+                            binding.progressBar.visibility = View.GONE
                             binding.tvSearch.visibility = View.GONE
                             binding.searchError.root.visibility = View.VISIBLE
                         }
