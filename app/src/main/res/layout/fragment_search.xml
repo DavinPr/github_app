@@ -60,7 +60,8 @@
         android:visibility="gone"
         app:indicatorColor="@color/gray"
         app:layout_constraintTop_toBottomOf="@+id/cardView"
-        app:trackColor="@color/light_gray" />
+        app:trackColor="@color/light_gray"
+        app:trackThickness="2dp" />
 
     <TextView
         android:id="@+id/tv_search"
