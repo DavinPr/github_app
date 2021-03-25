@@ -33,5 +33,12 @@
     <string name="language">Bahasa</string>
     <string name="inserted_data">Menambah user ke favorite</string>
     <string name="delete_data">Menghapus user dari favorite</string>
+    <string name="reminder_message">Ayo temukan seseorang di github!</string>
+    <string name="notification">Notifikasi</string>
+    <string name="daily_reminder">Pengingat harian</string>
+    <string name="night_mode">Mode malam</string>
+    <string name="daily_reminder_summary">Pengingat akan muncul pada 09.00</string>
+    <string name="night_mode_summary">Ganti tema anda menjadi gelap</string>
+
 
 </resources>

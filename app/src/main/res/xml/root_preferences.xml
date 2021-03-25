@@ -1,21 +1,36 @@
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
-        app:title="@string/general"
         android:layout="@layout/layout_preference_category"
-        android:icon="@drawable/ic_work"
-        >
+        app:title="@string/general">
 
         <ListPreference
+            android:layout="@layout/layout_preference_item"
             app:defaultValue="en"
             app:entries="@array/language_entries"
             app:entryValues="@array/language_values"
             app:key="language"
             app:title="@string/language"
-            app:useSimpleSummaryProvider="true"
-            android:layout="@layout/layout_preference_item"
-            />
+            app:useSimpleSummaryProvider="true" />
+
+        <SwitchPreference
+            android:summary="@string/night_mode_summary"
+            app:iconSpaceReserved="false"
+            app:key="@string/night_mode_key"
+            app:title="@string/night_mode" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:layout="@layout/layout_preference_category"
+        app:title="@string/notification">
+
+        <SwitchPreference
+            android:summary="@string/daily_reminder_summary"
+            app:iconSpaceReserved="false"
+            app:key="@string/daily_reminder_key"
+            app:title="@string/daily_reminder" />
 
     </PreferenceCategory>
 

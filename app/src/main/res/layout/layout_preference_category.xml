@@ -6,7 +6,7 @@
 
     <TextView
         android:id="@android:id/title"
-        style="@style/Theme.GithubMobile.Text.Medium.14"
+        style="@style/Theme.GithubMobile.Text.Medium.16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"

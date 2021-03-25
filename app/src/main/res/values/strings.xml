@@ -33,4 +33,13 @@
     <string name="language_key" translatable="false">language</string>
     <string name="inserted_data">Insert user into favorite</string>
     <string name="delete_data">Delete user from favorite</string>
+    <string name="reminder_title" translatable="false">Github Mobile</string>
+    <string name="reminder_message">Let\'s find someone in github!</string>
+    <string name="notification">Notification</string>
+    <string name="daily_reminder">Daily Reminder</string>
+    <string name="night_mode">Night Mode</string>
+    <string name="daily_reminder_summary">App will remind you at 09.00</string>
+    <string name="night_mode_summary">Change theme into dark</string>
+    <string name="night_mode_key" translatable="false">night_mode</string>
+    <string name="daily_reminder_key" translatable="false">daily_reminder</string>
 </resources>
