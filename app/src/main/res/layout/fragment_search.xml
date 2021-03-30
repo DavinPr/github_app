@@ -71,7 +71,7 @@
         android:padding="8dp"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        android:textColor="@color/text_gray"
+        android:textColor="@color/secondary_gray"
         android:textStyle="italic"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="@+id/cardView"

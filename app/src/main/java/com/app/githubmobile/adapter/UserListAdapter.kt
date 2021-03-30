@@ -12,6 +12,10 @@ class UserListAdapter : RecyclerView.Adapter<UserListAdapter.UserViewHolder>() {
     private val list = ArrayList<User>()
     var onClickItem: ((String) -> Unit)? = null
 
+    fun getSwipedData(swipedPosition: Int): User {
+        return list[swipedPosition]
+    }
+
     fun setData(list: List<User>) {
         this.list.clear()
         this.list.addAll(list)

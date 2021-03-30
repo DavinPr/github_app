@@ -13,7 +13,6 @@ import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.app.githubmobile.R
 import com.app.githubmobile.ui.SplashScreenActivity
-import com.app.githubmobile.ui.home.HomeActivity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import java.text.ParseException
@@ -28,6 +27,8 @@ class AlarmReceiver : BroadcastReceiver() {
         private const val ID_REMINDER = 100
     }
 
+    @FlowPreview
+    @ExperimentalCoroutinesApi
     override fun onReceive(context: Context, intent: Intent) {
         // This method is called when the BroadcastReceiver is receiving an Intent broadcast.
         showAlarmNotification(

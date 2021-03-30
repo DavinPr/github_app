@@ -23,7 +23,7 @@
     <string name="error_text">Terjadi kesalahan</string>
     <string name="data_empty">Data tidak ditemukan</string>
     <string name="search_text">Mencari \"%1$s\"</string>
-    <string name="app_tag">Cari orang di github</string>
+    <string name="app_tag">Lihat siapa saja di github. Ayo mulai mencari seseorang di github!</string>
     <string name="recent_search">Pencarian terbaru</string>
     <string name="recent_empty_message">Sepertinya anda belum melihat siapapun</string>
     <string name="title_activity_settings">Pengaturan</string>
@@ -36,9 +36,10 @@
     <string name="reminder_message">Ayo temukan seseorang di github!</string>
     <string name="notification">Notifikasi</string>
     <string name="daily_reminder">Pengingat harian</string>
-    <string name="night_mode">Mode malam</string>
     <string name="daily_reminder_summary">Pengingat akan muncul pada 09.00</string>
-    <string name="night_mode_summary">Ganti tema anda menjadi gelap</string>
+    <string name="top_user">Pengguna teratas</string>
+    <string name="load_more">Lihat selengkapnya</string>
+
 
 
 </resources>

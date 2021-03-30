@@ -11,25 +11,24 @@ import retrofit2.http.Query
 interface ApiService {
     @GET("search/users")
     suspend fun getSearchUser(
-        @Query("q") username: String,
-        @Header("Authorization") token : String = "7547552d4cdb29c66981dc12fd402d2d5eba77fa"
+        @Query("q") username: String
     ): SearchResponse
+
+    @GET("users")
+    suspend fun getTopUser(): List<UserItem>
 
     @GET("users/{username}")
     suspend fun getDetailUser(
-        @Path("username") username: String,
-        @Header("Authorization") token : String = "7547552d4cdb29c66981dc12fd402d2d5eba77fa"
+        @Path("username") username: String
     ): DetailResponse
 
     @GET("users/{username}/following")
     suspend fun getUserFollowing(
-        @Path("username") username: String,
-        @Header("Authorization") token : String = "7547552d4cdb29c66981dc12fd402d2d5eba77fa"
+        @Path("username") username: String
     ): List<UserItem>
 
     @GET("users/{username}/followers")
     suspend fun getUserFollowers(
-        @Path("username") username: String,
-        @Header("Authorization") token : String = "7547552d4cdb29c66981dc12fd402d2d5eba77fa"
+        @Path("username") username: String
     ): List<UserItem>
 }

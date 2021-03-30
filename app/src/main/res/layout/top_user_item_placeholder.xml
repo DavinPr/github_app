@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="6dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="300dp"
+        android:layout_height="150dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/top_user_avatar_placeholder"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_margin="8dp"
+            android:src="#7F000000"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/top_user_name_placeholder"
+            style="@style/Theme.GithubMobile.Text.Medium.14"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/bg_text_placeholder"
+            android:backgroundTint="#7F000000"
+            android:maxLines="1"
+            android:text="@string/my_name"
+            android:textColor="#00FFFFFF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/top_user_avatar_placeholder"
+            app:layout_constraintTop_toTopOf="@+id/top_user_avatar_placeholder" />
+
+        <TextView
+            android:id="@+id/top_user_username_placeholder"
+            style="@style/Theme.GithubMobile.Text.Regular.14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/bg_text_placeholder"
+            android:text="@string/my_username"
+            android:textColor="#00FFFFFF"
+            app:layout_constraintStart_toStartOf="@+id/top_user_name_placeholder"
+            app:layout_constraintTop_toBottomOf="@+id/top_user_name_placeholder"
+            tools:text="DavinPr" />
+
+        <TextView
+            android:id="@+id/top_user_followers_placeholder"
+            style="@style/Theme.GithubMobile.Text.Regular.14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_text_placeholder"
+            android:text="@string/_99k_followers"
+            android:textColor="#00FFFFFF"
+            app:layout_constraintEnd_toStartOf="@+id/top_user_following_placeholder"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/top_user_avatar_placeholder" />
+
+        <TextView
+            android:id="@+id/top_user_following_placeholder"
+            style="@style/Theme.GithubMobile.Text.Regular.14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/bg_text_placeholder"
+            android:drawablePadding="4dp"
+            android:text="@string/_99k_followers"
+            android:textColor="#00FFFFFF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/top_user_followers_placeholder"
+            app:layout_constraintTop_toTopOf="@+id/top_user_followers_placeholder" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

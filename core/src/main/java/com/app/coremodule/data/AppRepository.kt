@@ -1,5 +1,7 @@
 package com.app.coremodule.data
 
+import android.database.Cursor
+import android.util.Log
 import com.app.coremodule.data.local.LocalDataSource
 import com.app.coremodule.data.remote.RemoteDataSource
 import com.app.coremodule.data.remote.network.ApiResponse
@@ -25,6 +27,40 @@ class AppRepository(
             when (val apiResponse = remoteDataSource.getSearchUser(username).first()) {
                 is ApiResponse.Success -> {
                     val data = DataMapper.mapUserResponseToDomain(apiResponse.data)
+                    emit(Resource.Success(data))
+                }
+                is ApiResponse.Empty -> emit(Resource.Success<List<User>>(listOf()))
+                is ApiResponse.Error -> emit(Resource.Error<List<User>>(apiResponse.errorMessage))
+            }
+        }.flowOn(Dispatchers.IO)
+
+    override fun getTopUser(): Flow<Resource<List<User>>> =
+        flow {
+            emit(Resource.Loading())
+            when (val apiResponse = remoteDataSource.getTopUser().first()) {
+                is ApiResponse.Success -> {
+                    val data = DataMapper.mapUserResponseToDomain(apiResponse.data)
+                    data.map { user ->
+                        remoteDataSource.getDetailUser(user.username).collect {
+                            when (it) {
+                                is ApiResponse.Success -> {
+                                    val detail = it.data
+                                    user.name = detail.name
+                                    user.followers = detail.followers
+                                    user.following = detail.following
+                                }
+                                is ApiResponse.Empty -> {
+                                    user.name = "No name"
+                                    user.followers = 0
+                                    user.following = 0
+                                }
+                                is ApiResponse.Error -> {
+                                    Log.d("Top user detail", "Error when getting data")
+                                }
+                            }
+                        }
+
+                    }
                     emit(Resource.Success(data))
                 }
                 is ApiResponse.Empty -> emit(Resource.Success<List<User>>(listOf()))
@@ -116,6 +152,12 @@ class AppRepository(
         }
     }
 
+    override fun deleteFavoriteByUsername(username: String) {
+        appExecutors.diskIO().execute {
+            localDataSource.deleteFavoriteByUsername(username)
+        }
+    }
+
     override fun getAllRecent(): Flow<List<Recent>> =
         flow {
             val data = localDataSource.getAllRecent().map {
@@ -132,7 +174,17 @@ class AppRepository(
         }
     }
 
+    override fun deleteRecent(username: String) {
+        appExecutors.diskIO().execute {
+            localDataSource.deleteRecentByUsername(username)
+        }
+    }
+
     override fun getLocale(): String? {
         return localDataSource.getLocale()
+    }
+
+    override fun getAllFavoriteCursor(): Cursor {
+        return localDataSource.getAllFavoriteCursor()
     }
 }

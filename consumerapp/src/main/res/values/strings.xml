@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">ConsumerApp</string>
+    <string name="favorite">Favorite</string>
+    <string name="my_name">Aditya Davin Pradana</string>
+    <string name="my_username">DavinPr</string>
+
+    <string name="recent_empty_message">It looks like you haven\'t favorited anyone yet</string>
+    <string name="search">Search</string>
+</resources>

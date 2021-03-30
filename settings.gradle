@@ -1,3 +1,4 @@
+include ':consumerapp'
 include ':core'
 include ':app'
 rootProject.name = "GithubMobile"

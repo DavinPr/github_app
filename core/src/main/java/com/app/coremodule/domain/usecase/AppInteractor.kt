@@ -1,5 +1,6 @@
 package com.app.coremodule.domain.usecase
 
+import android.database.Cursor
 import com.app.coremodule.data.AppRepository
 import com.app.coremodule.data.Resource
 import com.app.coremodule.domain.usecase.model.Detail
@@ -10,6 +11,8 @@ import kotlinx.coroutines.flow.Flow
 class AppInteractor(private val repository: AppRepository) : AppUseCase {
     override fun getSearchUser(username: String): Flow<Resource<List<User>>> =
         repository.getSearchUser(username)
+
+    override fun getTopUser(): Flow<Resource<List<User>>> = repository.getTopUser()
 
     override fun getDetailUser(username: String): Flow<Resource<Detail>> =
         repository.getDetailUser(username)
@@ -30,6 +33,13 @@ class AppInteractor(private val repository: AppRepository) : AppUseCase {
 
     override fun insertRecent(detail: Detail) = repository.insertRecent(detail)
 
+    override fun deleteRecent(username: String) = repository.deleteRecent(username)
+
     override fun getLocale(): String? = repository.getLocale()
+
+    override fun getAllFavoriteCursor(): Cursor = repository.getAllFavoriteCursor()
+
+    override fun deleteFavoriteByUsername(username: String) =
+        repository.deleteFavoriteByUsername(username)
 
 }

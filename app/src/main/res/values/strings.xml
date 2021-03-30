@@ -23,7 +23,7 @@
     <string name="error_text">Something went wrong</string>
     <string name="data_empty">No data found</string>
     <string name="search_text">Searching for \"%1$s\"</string>
-    <string name="app_tag">Find people in github</string>
+    <string name="app_tag">Check out anyone on github. Let\'s start looking for someone in github!</string>
     <string name="recent_search">Recent search</string>
     <string name="recent_empty_message">It looks like you haven\'t seen anyone yet</string>
     <string name="title_activity_settings">Settings</string>
@@ -37,9 +37,10 @@
     <string name="reminder_message">Let\'s find someone in github!</string>
     <string name="notification">Notification</string>
     <string name="daily_reminder">Daily Reminder</string>
-    <string name="night_mode">Night Mode</string>
     <string name="daily_reminder_summary">App will remind you at 09.00</string>
-    <string name="night_mode_summary">Change theme into dark</string>
     <string name="night_mode_key" translatable="false">night_mode</string>
     <string name="daily_reminder_key" translatable="false">daily_reminder</string>
+    <string name="top_user">Top user</string>
+    <string name="_99k_followers" translatable="false">99k followers</string>
+    <string name="load_more">Load more</string>
 </resources>

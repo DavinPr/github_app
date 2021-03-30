@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:padding="8dp"
+        app:layout_constraintTop_toTopOf="parent"
         app:title="@string/app_name"
         app:titleTextAppearance="@style/Theme.GithubMobile.Text.Semibold.18">
 
@@ -41,58 +42,97 @@
         android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="@color/light_gray" />
+        android:background="@color/light_gray"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/search"
+        style="@style/Theme.GithubMobile.TextInputLayout.Filled"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="#FFFEFB"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="6dp"
+        app:layout_constraintBottom_toBottomOf="@id/view"
+        app:layout_constraintTop_toTopOf="@id/view">
+
+        <TextView
+            style="@style/Theme.GithubMobile.Text.Regular.14"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
+            android:drawablePadding="4dp"
+            android:gravity="center_vertical"
+            android:text="@string/search_on_github"
+            android:textColor="@color/secondary_gray"
+            app:drawableStartCompat="@drawable/ic_search" />
+
+    </androidx.cardview.widget.CardView>
 
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="wrap_content"
-                android:layout_height="200dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/search_illustration"
-                tools:ignore="ContentDescription" />
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/search"
-                style="@style/Theme.GithubMobile.TextInputLayout.Filled"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:background="#E1E1E1"
-                android:elevation="8dp"
-                app:cardCornerRadius="8dp">
-
-                <TextView
-                    style="@style/Theme.GithubMobile.Text.Regular.14"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="8dp"
-                    android:drawablePadding="4dp"
-                    android:gravity="center_vertical"
-                    android:text="@string/search_on_github"
-                    android:textColor="@color/text_gray"
-                    app:drawableStartCompat="@drawable/ic_search" />
-
-            </androidx.cardview.widget.CardView>
-
             <TextView
-                android:id="@+id/textView"
-                style="@style/Theme.GithubMobile.Text.Semibold.18"
+                android:id="@+id/textView1"
+                style="@style/Theme.GithubMobile.Text.Medium.16"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:gravity="center"
-                android:text="@string/app_tag" />
+                android:layout_marginEnd="16dp"
+                android:text="@string/top_user" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_top_user"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/top_user_item"
+                tools:visibility="visible" />
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/top_user_loading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:shimmer_auto_start="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <include layout="@layout/top_user_item_placeholder" />
+
+                    <include layout="@layout/top_user_item_placeholder" />
+
+                </LinearLayout>
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+            <include
+                android:id="@+id/top_user_error"
+                layout="@layout/layout_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:visibility="gone" />
 
             <View
                 android:id="@+id/view2"
@@ -114,11 +154,25 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_recent"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:nestedScrollingEnabled="false"
                 android:visibility="visible"
+                tools:itemCount="2"
                 tools:listitem="@layout/recent_item" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_rv_loadmore"
+                style="@style/Theme.GithubMobile.Text.Medium.14"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_open_github_btn"
+                android:text="@string/load_more"
+                app:backgroundTint="@null" />
 
             <include
                 android:id="@+id/recent_empty"
@@ -129,9 +183,43 @@
                 android:layout_marginBottom="16dp"
                 android:visibility="gone" />
 
+            <View
+                android:id="@+id/view1"
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/light_gray" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="175dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/search_illustration"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/textView"
+                style="@style/Theme.GithubMobile.Text.Regular.14"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="@string/app_tag" />
+
+            <TextView
+                style="@style/Theme.GithubMobile.Text.Medium.14"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/secondary_gray"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="@string/my_name" />
+
         </LinearLayout>
 
     </ScrollView>
 
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

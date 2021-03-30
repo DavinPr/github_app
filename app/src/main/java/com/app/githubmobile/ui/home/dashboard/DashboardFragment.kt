@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.app.coremodule.data.Resource
+import com.app.coremodule.domain.usecase.model.Recent
 import com.app.githubmobile.R
 import com.app.githubmobile.customview.DividerItemDecorationWithoutLast
 import com.app.githubmobile.databinding.FragmentDashboardBinding
@@ -60,19 +62,60 @@ class DashboardFragment : Fragment(), View.OnClickListener {
 
         (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
 
+        val topUserAdapter = TopUserAdapter()
+        viewModel.getTopUser.observe(viewLifecycleOwner) { user ->
+            when (user) {
+                is Resource.Loading -> {
+                    binding.topUserLoading.visibility = View.VISIBLE
+                    binding.topUserError.root.visibility = View.GONE
+                }
+                is Resource.Success -> {
+                    binding.topUserLoading.visibility = View.GONE
+                    binding.rvTopUser.visibility = View.VISIBLE
+                    val data = user.data
+                    if (data != null) {
+                        topUserAdapter.setData(data)
+                    }
+                }
+                is Resource.Error -> {
+                    binding.topUserLoading.visibility = View.GONE
+                    binding.rvTopUser.visibility = View.GONE
+                    binding.topUserError.root.visibility = View.VISIBLE
+                }
+            }
+        }
+
+        topUserAdapter.onClickItem = {
+            val intent = Intent(activity, DetailActivity::class.java)
+            intent.putExtra(DetailActivity.dataKey, it)
+            startActivity(intent)
+        }
+
         val recentAdapter = RecentListAdapter()
+        var listRecent: List<Recent> = listOf()
+        var expandState = false
         viewModel.getAllRecent().observe(viewLifecycleOwner) {
             if (it.isNullOrEmpty()) {
                 binding.apply {
                     rvRecent.visibility = View.GONE
                     recentEmpty.root.visibility = View.VISIBLE
+                    btnRvLoadmore.visibility = View.GONE
                 }
             } else {
                 binding.apply {
                     rvRecent.visibility = View.VISIBLE
                     recentEmpty.root.visibility = View.GONE
                 }
-                recentAdapter.setData(it)
+                listRecent = it
+                if (it.size > 3) {
+                    binding.btnRvLoadmore.visibility = if (expandState) View.GONE else View.VISIBLE
+                    recentAdapter.setData(if (expandState) it else it.subList(0, 3))
+                } else {
+                    binding.btnRvLoadmore.visibility = View.GONE
+                    expandState = false
+                    recentAdapter.setData(it)
+                }
+
             }
         }
 
@@ -80,6 +123,23 @@ class DashboardFragment : Fragment(), View.OnClickListener {
             val intent = Intent(activity, DetailActivity::class.java)
             intent.putExtra(DetailActivity.dataKey, it)
             startActivity(intent)
+        }
+
+        recentAdapter.onDeleteItem = {
+            viewModel.deleteRecent(it)
+        }
+
+        binding.rvTopUser.apply {
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            hasFixedSize()
+            adapter = topUserAdapter
+        }
+
+        binding.btnRvLoadmore.setOnClickListener {
+            recentAdapter.setData(listRecent.distinct())
+            binding.btnRvLoadmore.visibility = View.GONE
+            expandState = true
         }
 
         binding.rvRecent.apply {

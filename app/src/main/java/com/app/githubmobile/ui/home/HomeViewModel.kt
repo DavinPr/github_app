@@ -13,6 +13,8 @@ import kotlinx.coroutines.flow.*
 @FlowPreview
 class HomeViewModel(private val useCase: AppUseCase) : ViewModel() {
 
+    val getTopUser = useCase.getTopUser().asLiveData()
+
     val queryChannel = BroadcastChannel<String>(Channel.CONFLATED)
     val searchResult = queryChannel.asFlow()
         .debounce(1000)
@@ -25,4 +27,6 @@ class HomeViewModel(private val useCase: AppUseCase) : ViewModel() {
     fun getAllRecent() = useCase.getAllRecent().asLiveData()
 
     val getLanguage = useCase.getLocale()
+
+    fun deleteRecent(username: String) = useCase.deleteRecent(username)
 }

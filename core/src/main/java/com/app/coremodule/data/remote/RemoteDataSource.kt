@@ -25,6 +25,19 @@ class RemoteDataSource(private val apiService: ApiService) {
         }.flowOn(Dispatchers.IO)
     }
 
+    suspend fun getTopUser(): Flow<ApiResponse<List<UserItem>>> {
+        return flow {
+            val dataArray = apiService.getTopUser().subList(0, 5)
+            if (dataArray.isNotEmpty()) {
+                emit(ApiResponse.Success(dataArray))
+            } else {
+                emit(ApiResponse.Empty)
+            }
+        }.catch { e ->
+            emit(ApiResponse.Error(e.toString()))
+        }.flowOn(Dispatchers.IO)
+    }
+
 
     suspend fun getDetailUser(username: String): Flow<ApiResponse<DetailResponse>> =
         flow {

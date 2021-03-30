@@ -57,7 +57,7 @@
         android:elevation="4dp"
         android:text="@string/open_in_github"
         android:textAllCaps="false"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         app:backgroundTint="@null" />
 
 </LinearLayout>

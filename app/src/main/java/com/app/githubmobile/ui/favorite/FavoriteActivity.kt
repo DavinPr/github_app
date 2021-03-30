@@ -6,19 +6,25 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.app.coremodule.data.Resource
+import com.app.coremodule.domain.usecase.model.User
 import com.app.githubmobile.R
 import com.app.githubmobile.adapter.UserListAdapter
 import com.app.githubmobile.customview.DividerItemDecorationWithoutLast
 import com.app.githubmobile.databinding.ActivityFavoriteBinding
 import com.app.githubmobile.ui.detail.DetailActivity
+import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
+
 
 class FavoriteActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityFavoriteBinding
     private val viewModel: FavoriteViewModel by viewModel()
+    private lateinit var userAdapter: UserListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +39,7 @@ class FavoriteActivity : AppCompatActivity() {
             }
         }
 
-        val userAdapter = UserListAdapter()
+        userAdapter = UserListAdapter()
 
         viewModel.getAllFavorite().observe(this) { favorite ->
             when (favorite) {
@@ -71,6 +77,33 @@ class FavoriteActivity : AppCompatActivity() {
             hasFixedSize()
             adapter = userAdapter
             addItemDecoration(DividerItemDecorationWithoutLast(context))
+            itemTouchHelper.attachToRecyclerView(this)
         }
     }
+
+    private val itemTouchHelper: ItemTouchHelper =
+        ItemTouchHelper(object : ItemTouchHelper.Callback() {
+            override fun getMovementFlags(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder
+            ): Int = makeMovementFlags(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT)
+
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean = true
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val swipedPosition = viewHolder.adapterPosition
+                val user: User = userAdapter.getSwipedData(swipedPosition)
+                viewModel.deleteFavoriteByUsername(user.username)
+                val snackbar = Snackbar.make(
+                    binding.root,
+                    resources.getString(R.string.delete_data),
+                    Snackbar.LENGTH_SHORT
+                )
+                snackbar.show()
+            }
+        })
 }

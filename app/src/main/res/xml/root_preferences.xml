@@ -14,12 +14,6 @@
             app:title="@string/language"
             app:useSimpleSummaryProvider="true" />
 
-        <SwitchPreference
-            android:summary="@string/night_mode_summary"
-            app:iconSpaceReserved="false"
-            app:key="@string/night_mode_key"
-            app:title="@string/night_mode" />
-
     </PreferenceCategory>
 
     <PreferenceCategory

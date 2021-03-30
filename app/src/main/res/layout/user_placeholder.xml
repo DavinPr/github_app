@@ -10,7 +10,7 @@
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_margin="8dp"
-        android:background="#7F000000"
+        android:src="#7F000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

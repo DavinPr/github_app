@@ -6,10 +6,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.app.coremodule.domain.usecase.model.Recent
 import com.app.githubmobile.databinding.RecentItemBinding
 
+
 class RecentListAdapter : RecyclerView.Adapter<RecentListAdapter.RecentViewHolder>() {
 
     private val list = ArrayList<Recent>()
     var onClickItem: ((String) -> Unit)? = null
+    var onDeleteItem: ((String) -> Unit)? = null
 
     fun setData(list: List<Recent>) {
         this.list.clear()
@@ -36,6 +38,7 @@ class RecentListAdapter : RecyclerView.Adapter<RecentListAdapter.RecentViewHolde
 
     override fun getItemCount(): Int = list.size
 
+
     inner class RecentViewHolder(private val binding: RecentItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(recent: Recent) {
@@ -45,6 +48,9 @@ class RecentListAdapter : RecyclerView.Adapter<RecentListAdapter.RecentViewHolde
         init {
             itemView.setOnClickListener {
                 onClickItem?.invoke(list[adapterPosition].username)
+            }
+            binding.btnDelete.setOnClickListener {
+                onDeleteItem?.invoke(list[adapterPosition].username)
             }
         }
     }

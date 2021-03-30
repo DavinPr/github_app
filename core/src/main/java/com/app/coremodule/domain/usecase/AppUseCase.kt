@@ -1,5 +1,6 @@
 package com.app.coremodule.domain.usecase
 
+import android.database.Cursor
 import com.app.coremodule.data.Resource
 import com.app.coremodule.domain.usecase.model.Detail
 import com.app.coremodule.domain.usecase.model.Recent
@@ -8,6 +9,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface AppUseCase {
     fun getSearchUser(username: String): Flow<Resource<List<User>>>
+    fun getTopUser() : Flow<Resource<List<User>>>
     fun getDetailUser(username: String): Flow<Resource<Detail>>
     fun getUserFollowers(username: String): Flow<Resource<List<User>>>
     fun getUserFollowing(username: String): Flow<Resource<List<User>>>
@@ -16,5 +18,8 @@ interface AppUseCase {
     fun deleteFavorite(detail: Detail)
     fun getAllRecent(): Flow<List<Recent>>
     fun insertRecent(detail: Detail)
+    fun deleteRecent(username: String)
     fun getLocale(): String?
+    fun getAllFavoriteCursor(): Cursor
+    fun deleteFavoriteByUsername(username: String)
 }
