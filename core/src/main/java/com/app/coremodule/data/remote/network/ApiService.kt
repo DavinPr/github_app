@@ -4,7 +4,6 @@ import com.app.coremodule.data.remote.response.DetailResponse
 import com.app.coremodule.data.remote.response.SearchResponse
 import com.app.coremodule.data.remote.response.UserItem
 import retrofit2.http.GET
-import retrofit2.http.Header
 import retrofit2.http.Path
 import retrofit2.http.Query
 
